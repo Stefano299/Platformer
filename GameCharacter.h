@@ -19,8 +19,10 @@ class GameCharacter {
 private:
     void setAnimation();
     void idleAnimation();
+    void runAnimation();
     void timeFlow();
-    int animTime;
+    int idleTime;
+    int runTime;
     float x;
     float y;
     float speed;
@@ -30,7 +32,7 @@ private:
     sf::Texture runTexture;
 public:
     GameCharacter(float x, float y, float speed);
-    void move(int dx, int dy);
+    void move(int dx);
     void draw(sf::RenderWindow& window);
     float getX() const;
     float getY() const;
