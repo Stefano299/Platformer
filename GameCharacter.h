@@ -8,6 +8,7 @@
 #include<iostream>
 #include<SFML/Graphics.hpp>
 
+
 enum class AnimationType{
     Idle,
     Run,
@@ -15,12 +16,15 @@ enum class AnimationType{
     Fall
 };
 
+class PhysicsWorld;
 class GameCharacter {
 private:
     void setAnimation();
     void idleAnimation();
     void runAnimation();
     void timeFlow();
+    int initialTime;
+    bool jumping;
     int idleTime;
     int runTime;
     float x;
@@ -37,6 +41,10 @@ public:
     float getX() const;
     float getY() const;
     float getSpeed() const;
+    void jump();
+    int getTime() const;
+    bool isJumping() const;
+    void changeY(float dy);
 };
 
 

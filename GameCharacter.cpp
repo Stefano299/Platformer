@@ -5,18 +5,20 @@
 #include "GameCharacter.h"
 #include"constants.h"
 #include"frameTime.h"
+#include"PhysicsWorld.h"
+
 #include<iostream>
 using namespace std;
 GameCharacter::GameCharacter(float x, float y, float speed) {
+    jumping = false;
     idleTime = 0;
+    runTime = 0;
     this->x = x;
     this->y = y;
     this->speed = speed;
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
-    float scaleX = ((float)SCREEN_WIDTH/1920)*3;
-    float scaleY = ((float)SCREEN_HEIGTH / 1200) * 3;
-    sprite.setScale(scaleX, scaleY);
+    sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
     sprite.setOrigin(16, 16);
     sprite.setPosition(x, y);
     animationType = AnimationType::Idle;
@@ -46,16 +48,17 @@ void GameCharacter::timeFlow() {
 
 
 void GameCharacter::move(int dx) {
-    x += (float)dx*speed;
-    float scaleX = ((float)SCREEN_WIDTH/1920)*3;
-    float scaleY = ((float)SCREEN_HEIGTH / 1200) * 3;
+    if(!jumping)   //Se salta si muove più lentamente orizzontalmente
+        x += (float)dx*speed;
+    else
+        x+=(float)dx*(speed/1.75);
     if(dx==1) {
-        sprite.setScale(scaleX, scaleY);
+        sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
         animationType = AnimationType::Run;
         cout << "right" << endl;
     }
     else if(dx ==-1){
-        sprite.setScale(-scaleX, scaleY);
+        sprite.setScale(-SCALE_FACTORX, SCALE_FACTORY);
         animationType = AnimationType::Run;
         cout << "left" <<  endl;
     }
@@ -90,6 +93,25 @@ float GameCharacter::getY() const {
 
 float GameCharacter::getSpeed() const {
     return speed;
+}
+
+void GameCharacter::changeY(float dy) {
+    y+=dy;
+    if(y>=SCREEN_HEIGTH)
+        jumping = false;
+}
+
+void GameCharacter::jump() {
+    jumping = true;
+    initialTime = frameTime;
+}
+
+int GameCharacter::getTime() const {
+    return initialTime;
+}
+
+bool GameCharacter::isJumping() const {
+    return jumping;
 }
 
 

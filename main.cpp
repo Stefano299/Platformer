@@ -6,6 +6,7 @@
 #include"constants.h"
 #include"frameTime.h"
 #include"GameCharacter.h"
+#include"PhysicsWorld.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ long int frameTime = 0;
 
 void initWindow(sf::RenderWindow& window);
 void initBackground(sf::Sprite& sprite);
-void update(sf::RenderWindow& window, const sf::Sprite& background, GameCharacter& hero);
+void update(sf::RenderWindow& window, const sf::Sprite& background, GameCharacter& hero, PhysicsWorld& world);
 void handleEvents(sf::RenderWindow &window);
 
 void handleHeroMovement(GameCharacter &hero);
@@ -21,13 +22,15 @@ void handleHeroMovement(GameCharacter &hero);
 int main() {
     sf::RenderWindow window;
     initWindow(window);
+    PhysicsWorld world;
     sf::Sprite background;
-    GameCharacter hero(200, SCREEN_HEIGTH - 400, 8.0f);
+    GameCharacter hero(500, SCREEN_HEIGTH-200, 8.0f);
+    world.addHero(&hero);
     initBackground(background);
     while(window.isOpen()){
         handleEvents(window);
         handleHeroMovement(hero);
-        update(window, background, hero);
+        update(window, background, hero, world);
     }
     return 0;
 }
@@ -63,10 +66,11 @@ void initWindow(sf::RenderWindow& window){
     window.setFramerateLimit(60);
 }
 
-void update(sf::RenderWindow& window, const sf::Sprite& background, GameCharacter& hero){
+void update(sf::RenderWindow& window, const sf::Sprite& background, GameCharacter& hero, PhysicsWorld& world){
     frameTime++;
     window.clear();
     window.draw(background);
+    world.update();
     hero.draw(window);
     window.display();
 }

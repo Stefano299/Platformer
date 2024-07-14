@@ -8,5 +8,11 @@ add_executable(Platformer main.cpp
         GameCharacter.h
         constants.h
         frameTime.h
+        PhysicsWorld.cpp
+        PhysicsWorld.h
+        Block.cpp
+        Block.h
+        BlockGrid.cpp
+        BlockGrid.h
 )
 target_link_libraries(Platformer sfml-graphics sfml-window sfml-system sfml-network sfml-audio)
