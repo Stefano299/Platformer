@@ -20,10 +20,11 @@ private:
     float y;
     Type type;
 public:
-    Block(float x, float y, Type type);
-    void draw(sf::RenderWindow& window);
+    Block(float x, float y, Type type = Type::green);
+    void draw(sf::RenderWindow& window) const;
     float getX() const;
     float getY() const;
+    bool operator==(const Block& right) const;
 };
 
 

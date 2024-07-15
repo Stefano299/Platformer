@@ -20,7 +20,7 @@ Block::Block(float x, float y, Type type) {
     sprite.setPosition(x, y);
 }
 
-void Block::draw(sf::RenderWindow &window) {
+void Block::draw(sf::RenderWindow &window) const{
     window.draw(sprite);
 }
 
@@ -30,4 +30,8 @@ float Block::getX() const {
 
 float Block::getY() const {
     return y;
+}
+
+bool Block::operator==(const Block &right) const {
+    return(x==right.x && y==right.y);
 }
