@@ -7,7 +7,7 @@
 
 #include<iostream>
 #include<SFML/Graphics.hpp>
-
+#include"Rectangle.h"
 
 enum class AnimationType{
     Idle,
@@ -30,6 +30,7 @@ private:
     float x;
     float y;
     float speed;
+    Rectangle* rectangle;
     AnimationType animationType;
     sf::Sprite sprite;
     sf::Texture idleTexture;
@@ -45,6 +46,8 @@ public:
     int getTime() const;
     bool isJumping() const;
     void changeY(float dy);
+    Rectangle* getRectangle() const;
+    ~GameCharacter();
 };
 
 

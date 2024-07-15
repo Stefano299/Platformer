@@ -7,6 +7,7 @@
 
 #include<SFML/Graphics.hpp>
 #include<map>
+#include"Rectangle.h"
 
 enum class Type{
     green,
@@ -17,6 +18,7 @@ class Block {
 private:
     static std::map<Type, sf::Texture> textures;
     sf::Sprite sprite;
+    Rectangle* rectangle;
     float x;
     float y;
     Type type;
@@ -26,6 +28,10 @@ public:
     void draw(sf::RenderWindow& window) const;
     float getX() const;
     float getY() const;
+    ~Block();
+    Block& operator=(const Block& right);
+    Block(const Block& original);
+    Rectangle* getRectangle() const;
     bool operator==(const Block& right) const;
 };
 

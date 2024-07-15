@@ -22,6 +22,7 @@ GameCharacter::GameCharacter(float x, float y, float speed) {
     sprite.setOrigin(16, 16);
     sprite.setPosition(x, y);
     animationType = AnimationType::Idle;
+    rectangle = new Rectangle (x-16*SCALE_FACTORX,y-16*SCALE_FACTORY, 32*SCALE_FACTORX, 32*SCALE_FACTORY);
 }
 
 void GameCharacter::setAnimation() {
@@ -64,6 +65,8 @@ void GameCharacter::move(int dx) {
     }
     else
         animationType = AnimationType::Idle;
+    rectangle->x = x-16*SCALE_FACTORX;
+    rectangle->y = y-16*SCALE_FACTORY;
     sprite.setPosition(x,y);
 }
 
@@ -113,6 +116,15 @@ int GameCharacter::getTime() const {
 bool GameCharacter::isJumping() const {
     return jumping;
 }
+
+GameCharacter::~GameCharacter() {
+    delete rectangle;
+}
+
+Rectangle *GameCharacter::getRectangle() const {
+    return rectangle;
+}
+
 
 
 

@@ -30,6 +30,7 @@ int main() {
     sf::Sprite background;
     GameCharacter hero(500, SCREEN_HEIGTH-200, 8.0f);
     world.addHero(&hero);
+    world.addGrid(&grid);
     initBackground(background);
     while(window.isOpen()){
         handleEvents(window, grid);

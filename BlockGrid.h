@@ -18,6 +18,7 @@ public:
     BlockGrid(int width, int height);
     void addBlock(const Block& block);
     void removeBlock(float x, float y);
+    const std::vector<Block>& getBlocks() const;
     void draw(sf::RenderWindow& window) const;
 };
 

@@ -15,6 +15,7 @@ Block::Block(float x, float y, Type type) : x(x), y(y), type(type) {
     }
     sprite.setScale(SCALE_FACTORX - 3, SCALE_FACTORY - 3);
     sprite.setPosition(x, y);
+    rectangle = new Rectangle(x,y,BLOCK_WIDTH,BLOCK_HEIGTH);
 }
 
 void Block::draw(sf::RenderWindow &window) const {
@@ -45,3 +46,35 @@ void Block::loadTextures() {
     }
     textures = {{Type::green, green}, {Type::orange, orange}, {Type::purple, purple}};
 }
+
+Block &Block::operator=(const Block &right) {
+    if(this != &right){
+        sprite = right.sprite;
+        type = right.type;
+        x = right.x;
+        y = right.y;
+        delete rectangle;
+        if(right.rectangle!= nullptr)
+            rectangle = new Rectangle (*right.rectangle);
+    }
+    return *this;
+}
+
+
+Block::~Block() {
+    delete rectangle;
+}
+
+Block::Block(const Block &original) {
+    sprite = original.sprite;
+    type = original.type;
+    x = original.x;
+    y = original.y;
+    if(original.rectangle!= nullptr)
+        rectangle = new Rectangle (*original.rectangle);
+}
+
+Rectangle *Block::getRectangle() const {
+    return rectangle;
+}
+

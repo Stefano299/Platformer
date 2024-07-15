@@ -29,3 +29,7 @@ void BlockGrid::draw(sf::RenderWindow &window) const{
         it.draw(window);
 }
 
+const std::vector<Block> &BlockGrid::getBlocks() const {
+    return blocks;
+}
+
