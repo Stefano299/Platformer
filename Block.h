@@ -6,6 +6,7 @@
 #define PLATFORMER_BLOCK_H
 
 #include<SFML/Graphics.hpp>
+#include<map>
 
 enum class Type{
     green,
@@ -14,13 +15,14 @@ enum class Type{
 };
 class Block {
 private:
-    sf::Texture texture;
+    static std::map<Type, sf::Texture> textures;
     sf::Sprite sprite;
     float x;
     float y;
     Type type;
 public:
     Block(float x, float y, Type type = Type::green);
+    static void loadTextures();
     void draw(sf::RenderWindow& window) const;
     float getX() const;
     float getY() const;
