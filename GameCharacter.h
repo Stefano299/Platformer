@@ -30,11 +30,13 @@ private:
     float x;
     float y;
     float speed;
+    bool colliding;
     Rectangle* rectangle;
     AnimationType animationType;
     sf::Sprite sprite;
     sf::Texture idleTexture;
     sf::Texture runTexture;
+    PhysicsWorld* world;
 public:
     GameCharacter(float x, float y, float speed);
     void move(int dx);
@@ -46,6 +48,8 @@ public:
     int getTime() const;
     bool isJumping() const;
     void changeY(float dy);
+    void setCollision(bool c);
+    void setPhysicsWorld(PhysicsWorld* w);
     Rectangle* getRectangle() const;
     ~GameCharacter();
 };

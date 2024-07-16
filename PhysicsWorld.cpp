@@ -32,7 +32,9 @@ PhysicsWorld::PhysicsWorld() {
 
 bool PhysicsWorld::isColliding(Rectangle* rec1, Rectangle* rec2) const {
     return(rec1->x+rec1->width >rec2->x &&
-       rec2->x+rec2->width > rec1->x);
+           rec2->x+rec2->width > rec1->x &&
+           rec1->y+rec1->height> rec2->y &&
+           rec2->y+rec2->height >rec1->y);
 }
 
 void PhysicsWorld::addGrid(BlockGrid *grid) {
@@ -40,9 +42,14 @@ void PhysicsWorld::addGrid(BlockGrid *grid) {
 }
 
 void PhysicsWorld::collisionsHandler() {
+    bool collided = false;
     for(const auto& it: grid->getBlocks()){
         if(isColliding(hero->getRectangle(), it.getRectangle())){
-            std::cout << "COLLISION" << std::endl;
+            collided = true;
+            hero->setCollision(true);
+            std::cout << "colliding" << std::endl;
         }
     }
+    if(!collided)
+        hero->setCollision(false); //Sennò basta che non collide con uno e non collide
 }

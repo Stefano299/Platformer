@@ -16,13 +16,14 @@ GameCharacter::GameCharacter(float x, float y, float speed) {
     this->x = x;
     this->y = y;
     this->speed = speed;
+    colliding = false;
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
     sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
     sprite.setOrigin(16, 16);
     sprite.setPosition(x, y);
     animationType = AnimationType::Idle;
-    rectangle = new Rectangle (x-16*SCALE_FACTORX,y-16*SCALE_FACTORY, 32*SCALE_FACTORX, 32*SCALE_FACTORY);
+    rectangle = new Rectangle (x-12*SCALE_FACTORX,y-12*SCALE_FACTORY, 24*SCALE_FACTORX, 28*SCALE_FACTORY);
 }
 
 void GameCharacter::setAnimation() {
@@ -49,31 +50,35 @@ void GameCharacter::timeFlow() {
 
 
 void GameCharacter::move(int dx) {
-    if(!jumping)   //Se salta si muove più lentamente orizzontalmente
-        x += (float)dx*speed;
-    else
-        x+=(float)dx*(speed/1.75);
-    if(dx==1) {
-        sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
-        animationType = AnimationType::Run;
-        cout << "right" << endl;
+    rectangle->x = x - 12 * SCALE_FACTORX + (float)dx*speed;
+    rectangle->y = y - 12 * SCALE_FACTORY;
+    world->update();
+    if(!colliding) {
+        if (!jumping)   //Se salta si muove più lentamente orizzontalmente
+            x += (float) dx * speed;
+        else
+            x += (float) dx * (speed / 1.75);
+        if (dx == 1) {
+            sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
+            animationType = AnimationType::Run;
+            cout << "right" << endl;
+        } else if (dx == -1) {
+            sprite.setScale(-SCALE_FACTORX, SCALE_FACTORY);
+            animationType = AnimationType::Run;
+            cout << "left" << endl;
+        } else
+            animationType = AnimationType::Idle;
+        sprite.setPosition(x, y);
     }
-    else if(dx ==-1){
-        sprite.setScale(-SCALE_FACTORX, SCALE_FACTORY);
-        animationType = AnimationType::Run;
-        cout << "left" <<  endl;
-    }
     else
-        animationType = AnimationType::Idle;
-    rectangle->x = x-16*SCALE_FACTORX;
-    rectangle->y = y-16*SCALE_FACTORY;
-    sprite.setPosition(x,y);
+        rectangle->x = x - 12 * SCALE_FACTORX;
 }
 
 void GameCharacter::draw(sf::RenderWindow& window) {
     timeFlow();
     setAnimation();
     window.draw(sprite);
+    rectangle->draw(window);
 }
 
 void GameCharacter::idleAnimation()  {
@@ -123,6 +128,14 @@ GameCharacter::~GameCharacter() {
 
 Rectangle *GameCharacter::getRectangle() const {
     return rectangle;
+}
+
+void GameCharacter::setCollision(bool c) {
+    colliding = c;
+}
+
+void GameCharacter::setPhysicsWorld(PhysicsWorld *w) {
+    world = w;
 }
 
 
