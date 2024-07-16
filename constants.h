@@ -17,6 +17,8 @@ const int GRID_WIDTH = 28;
 const int GRID_HEIGHT= 16;
 const float SCREEN_WIDTH = GRID_WIDTH*BLOCK_WIDTH;
 const float SCREEN_HEIGTH = GRID_HEIGHT*BLOCK_HEIGTH;
+const float BULLET_WIDTH = 38*1.3;
+const float BULLET_HEIGTH = 38*1.3;
 
 
 #endif //PLATFORMER_CONSTANTS_H

@@ -9,6 +9,7 @@
 #include"PhysicsWorld.h"
 #include"Block.h"
 #include"BlockGrid.h"
+#include"Bullet.h"
 
 using namespace std;
 

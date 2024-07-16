@@ -16,5 +16,9 @@ add_executable(Platformer main.cpp
         BlockGrid.h
         Rectangle.h
         Rectangle.cpp
+        Weapon.cpp
+        Weapon.h
+        Bullet.cpp
+        Bullet.h
 )
 target_link_libraries(Platformer sfml-graphics sfml-window sfml-system sfml-network sfml-audio)
