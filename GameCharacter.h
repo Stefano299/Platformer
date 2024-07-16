@@ -22,6 +22,8 @@ private:
     void setAnimation();
     void idleAnimation();
     void runAnimation();
+    void jumpAnimation();
+    void fallAnimation();
     void timeFlow();
     bool jumping;
     int idleTime;
@@ -31,11 +33,14 @@ private:
     float speed;
     bool collidingX;
     bool collidingY;
+    float deltaY; //Mi serve per le animazioni di salto e caduta
     Rectangle* rectangle;
     AnimationType animationType;
     sf::Sprite sprite;
     sf::Texture idleTexture;
     sf::Texture runTexture;
+    sf::Texture jumpTexture;
+    sf::Texture fallTexture;
     PhysicsWorld* world;
 public:
     GameCharacter(float x, float y, float speed);
@@ -49,6 +54,8 @@ public:
     void setCollisionX(bool c);
     void setCollisionY(bool c);
     bool isCollidingY() const;
+    void stopJumping();
+    float getDeltaY() const;
     void setPhysicsWorld(PhysicsWorld* w);
     Rectangle* getRectangle() const;
     ~GameCharacter();

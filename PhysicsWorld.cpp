@@ -56,16 +56,19 @@ void PhysicsWorld::collisionsHandler() {
     for(const auto& it: grid->getBlocks()) {
         Rectangle* blockRec = it.getRectangle();
         if (isColliding(heroRec, blockRec)) {
-            if(abs(hero->getY()-HERO_HEIGTH/2-it.getY())< HERO_HEIGTH) { //Per controllare quando la collisione avviene per il movimento orizzontale di hero contro qualcosa
+            //Per controllare quando la collisione avviene per il movimento orizzontale di hero contro qualcosa
+            if(abs(hero->getY()-HERO_HEIGTH/2-it.getY())< HERO_HEIGTH){  //Se sbatte la  testa sotto una pittaforma smette di saltare
                 collidedX = true;
                 hero->setCollisionX(true);
-                std::cout << "collidingX" << std::endl;
+                if(abs(hero->getX()-it.getX()) < HERO_WIDTH*(3/2) && heroRec->y > blockRec->y+BLOCK_HEIGTH-3 && hero->getDeltaY()>0) { // CONTROLLA SIA SALENDO!
+                    hero->stopJumping();
+                    fallingT0 = frameTime-2;
+                }
             }
             else{
                 collidedY = true;
                 hero->setCollisionY(true);
                 fallingT0 = frameTime; //Prendo l'istante iniziale in cui cade
-                //std::cout << "collidingY" << std::endl;
             }
 
         }

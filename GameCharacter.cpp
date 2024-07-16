@@ -16,9 +16,12 @@ GameCharacter::GameCharacter(float x, float y, float speed) {
     this->x = x;
     this->y = y;
     this->speed = speed;
+    deltaY = 0;
     collidingX = false;
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
+    jumpTexture.loadFromFile("../assets/jump.png");
+    fallTexture.loadFromFile("../assets/fall.png");
     sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
     sprite.setOrigin(16, 16);
     sprite.setPosition(x, y);
@@ -30,9 +33,14 @@ void GameCharacter::setAnimation() {
     if(animationType == AnimationType::Idle){
         idleAnimation();
     }
-    else if(animationType == AnimationType::Run){
+    else if(animationType == AnimationType::Run) {
         runAnimation();
     }
+    else if(animationType == AnimationType::Fall){
+        fallAnimation();
+    }
+    else if(animationType == AnimationType::Jump)
+        jumpAnimation();
 }
 
 void GameCharacter::timeFlow() {
@@ -60,11 +68,9 @@ void GameCharacter::move(int dx) {
         if (dx == 1) {
             sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
             animationType = AnimationType::Run;
-            cout << "right" << endl;
         } else if (dx == -1) {
             sprite.setScale(-SCALE_FACTORX, SCALE_FACTORY);
             animationType = AnimationType::Run;
-            cout << "left" << endl;
         } else
             animationType = AnimationType::Idle;
         sprite.setPosition(x, y);
@@ -76,10 +82,15 @@ void GameCharacter::move(int dx) {
 
 void GameCharacter::draw(sf::RenderWindow& window) {
     timeFlow();
-    setAnimation();
     if(jumping) {
         changeY(-17);  //Lo fa saltare
     }
+    if(deltaY>0)  //Se sta andando in alto metto l'animazione jump,sennò quella che cade
+        animationType = AnimationType::Fall;
+    else if(deltaY < 0)
+        animationType = AnimationType::Jump;
+    deltaY= 0;
+    setAnimation();
     sprite.setPosition(x,y);
     window.draw(sprite);
     rectangle->draw(window);
@@ -95,13 +106,23 @@ void GameCharacter::runAnimation() {
     sprite.setTextureRect(sf::IntRect (runTime * 32, 0, 32, 32));
 }
 
+void GameCharacter::jumpAnimation() {
+    sprite.setTexture(jumpTexture);
+    sprite.setTextureRect(sf::IntRect (0, 0, 32, 32));
+}
+
+void GameCharacter::fallAnimation() {
+    sprite.setTexture(fallTexture);
+    sprite.setTextureRect(sf::IntRect (0, 0, 32, 32));
+}
+
 
 void GameCharacter::changeY(float dy) {
     rectangle->y+=dy;
     world->collisionsHandler();
     if(!collidingY) {
+        deltaY += dy;
         y += dy;
-        cout << dy << endl;
     }
     else {
         jumping = false;
@@ -123,7 +144,9 @@ float GameCharacter::getSpeed() const {
 
 
 void GameCharacter::jump() {
-    jumping = true;
+    if(deltaY == 0) //Se sta cadendo o saltando non pà (ri)saltare
+        jumping = true;
+
 }
 
 
@@ -151,6 +174,13 @@ bool GameCharacter::isCollidingY() const {
     return collidingY;
 }
 
+void GameCharacter::stopJumping() {
+    jumping = false;
+}
+
+float GameCharacter::getDeltaY() const {
+    return deltaY;
+}
 
 
 
