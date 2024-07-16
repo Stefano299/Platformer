@@ -23,7 +23,6 @@ private:
     void idleAnimation();
     void runAnimation();
     void timeFlow();
-    int initialTime;
     bool jumping;
     int idleTime;
     int runTime;
@@ -46,8 +45,6 @@ public:
     float getY() const;
     float getSpeed() const;
     void jump();
-    int getTime() const;
-    bool isJumping() const;
     void changeY(float dy);
     void setCollisionX(bool c);
     void setCollisionY(bool c);

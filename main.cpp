@@ -48,6 +48,8 @@ void handleHeroMovement(GameCharacter &hero) {
         dx=-1;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         dx = 1;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        hero.jump();
     hero.move(dx);
 }
 void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid){
@@ -85,8 +87,8 @@ void update(sf::RenderWindow& window, const sf::Sprite& background, GameCharacte
     frameTime++;
     window.clear();
     window.draw(background);
-    world.update();
     hero.draw(window);
+    world.update();
     grid.draw(window);
     window.display();
 }

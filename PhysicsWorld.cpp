@@ -29,10 +29,7 @@ void PhysicsWorld::fall() {  //Prende il tempo frame
 
 void PhysicsWorld::update() {
     collisionsHandler();
-    if(!hero->isCollidingY()){ //Far cadere il personaggio se non cè una piattaforma sotto
-        fall();
-        std::cout << "cadendo" << std::endl;
-    }
+    fall(); //Far cadere il personaggio se non cè una piattaforma sotto
 }
 
 void PhysicsWorld::addHero(GameCharacter *hero) {
@@ -59,7 +56,7 @@ void PhysicsWorld::collisionsHandler() {
     for(const auto& it: grid->getBlocks()) {
         Rectangle* blockRec = it.getRectangle();
         if (isColliding(heroRec, blockRec)) {
-            if((heroRec->y+HERO_HEIGTH/2) > blockRec->y) {
+            if() {
                 collidedX = true;
                 hero->setCollisionX(true);
                 std::cout << "collidingX" << std::endl;

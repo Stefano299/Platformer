@@ -73,9 +73,13 @@ void GameCharacter::move(int dx) {
         rectangle->x = x - 12 * SCALE_FACTORX;
 }
 
+
 void GameCharacter::draw(sf::RenderWindow& window) {
     timeFlow();
     setAnimation();
+    if(jumping) {
+        changeY(-15);  //Lo fa saltare
+    }
     window.draw(sprite);
     rectangle->draw(window);
 }
@@ -96,9 +100,12 @@ void GameCharacter::changeY(float dy) {
     world->collisionsHandler();
     if(!collidingY) {
         y += dy;
+        cout << dy << endl;
     }
-    else
-        rectangle->y -=dy;
+    else {
+        jumping = false;
+        rectangle->y -= dy;
+    }
 }
 
 float GameCharacter::getX() const {
@@ -116,16 +123,8 @@ float GameCharacter::getSpeed() const {
 
 void GameCharacter::jump() {
     jumping = true;
-    initialTime = frameTime;
 }
 
-int GameCharacter::getTime() const {
-    return initialTime;
-}
-
-bool GameCharacter::isJumping() const {
-    return jumping;
-}
 
 GameCharacter::~GameCharacter() {
     delete rectangle;
