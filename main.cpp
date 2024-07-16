@@ -28,7 +28,8 @@ int main() {
     Block::loadTextures();
     BlockGrid grid(GRID_WIDTH, GRID_HEIGHT);
     sf::Sprite background;
-    GameCharacter hero(500, SCREEN_HEIGTH-700, 8.0f);
+    GameCharacter hero(500, 200, 8.0f);
+    addBlock(sf::Vector2i (500, SCREEN_HEIGTH-100), grid);
     world.addHero(&hero);
     world.addGrid(&grid);
     hero.setPhysicsWorld(&world);

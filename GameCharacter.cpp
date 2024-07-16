@@ -94,8 +94,9 @@ void GameCharacter::runAnimation() {
 void GameCharacter::changeY(float dy) {
     rectangle->y+=dy;
     world->collisionsHandler();
-    if(!collidingY)
-        y+=dy;
+    if(!collidingY) {
+        y += dy;
+    }
     else
         rectangle->y -=dy;
 }
@@ -144,6 +145,10 @@ void GameCharacter::setPhysicsWorld(PhysicsWorld *w) {
 
 void GameCharacter::setCollisionY(bool c) {
     collidingY = c;
+}
+
+bool GameCharacter::isCollidingY() const {
+    return collidingY;
 }
 
 

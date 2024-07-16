@@ -6,7 +6,7 @@
 #define PLATFORMER_CONSTANTS_H
 
 
-const float GRAVITY = 30;
+const float GRAVITY = 2;
 const float SCALE_FACTORX = 5;
 const float SCALE_FACTORY = 5;
 const float BLOCK_WIDTH = 2*48;

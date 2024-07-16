@@ -51,6 +51,7 @@ public:
     void changeY(float dy);
     void setCollisionX(bool c);
     void setCollisionY(bool c);
+    bool isCollidingY() const;
     void setPhysicsWorld(PhysicsWorld* w);
     Rectangle* getRectangle() const;
     ~GameCharacter();

@@ -14,8 +14,9 @@ class PhysicsWorld {
 private:
     GameCharacter* hero;
     BlockGrid* grid;
-    void fall(int t0);
+    void fall();
     bool isColliding(Rectangle* rec1, Rectangle* rec2) const;
+    long int fallingT0;
 public:
     PhysicsWorld();
     void collisionsHandler();

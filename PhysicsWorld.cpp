@@ -15,23 +15,30 @@
 
 
 
-void PhysicsWorld::fall(int t0) {  //Prende il tempo frame
-    float time0 = t0*0.01;
-    hero->changeY(-time0*time0*GRAVITY);
+
+PhysicsWorld::PhysicsWorld() {
+    fallingT0 = frameTime;
+    hero =nullptr;
+}
+
+void PhysicsWorld::fall() {  //Prende il tempo frame
+    long int tInt = (frameTime-fallingT0); //Il tempo trascordo dall'istante inziale, lo faccio scorrere piuttosto velocemente
+    float t = tInt*0.1; //Deve essere piccolo
+    hero->changeY(t*GRAVITY);
 }
 
 void PhysicsWorld::update() {
     collisionsHandler();
-    hero->changeY(1);
+    if(!hero->isCollidingY()){ //Far cadere il personaggio se non cè una piattaforma sotto
+        fall();
+        std::cout << "cadendo" << std::endl;
+    }
 }
 
 void PhysicsWorld::addHero(GameCharacter *hero) {
     this->hero = hero;
 }
 
-PhysicsWorld::PhysicsWorld() {
-    hero =nullptr;
-}
 
 bool PhysicsWorld::isColliding(Rectangle* rec1, Rectangle* rec2) const {
     return(rec1->x+rec1->width >rec2->x &&
@@ -60,6 +67,7 @@ void PhysicsWorld::collisionsHandler() {
             else{
                 collidedY = true;
                 hero->setCollisionY(true);
+                fallingT0 = frameTime; //Prendo l'istante iniziale in cui cade
                 //std::cout << "collidingY" << std::endl;
             }
 
