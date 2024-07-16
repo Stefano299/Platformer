@@ -46,3 +46,7 @@ void Bullet::updateAnimation() {
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect (animIndex * 38, 0, 38, 38));
 }
+
+Rectangle* Bullet::getRectangle() const {
+    return rectangle;
+}

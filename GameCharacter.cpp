@@ -2,13 +2,25 @@
 // Created by stefano on 7/13/24.
 //
 
+#include<iostream>
+
+
 #include "GameCharacter.h"
 #include"constants.h"
 #include"frameTime.h"
 #include"PhysicsWorld.h"
 
-#include<iostream>
 using namespace std;
+
+int sign(float x){
+    if(x>0)
+        return 1;
+    else if(x<0)
+        return -1;
+    else
+        return 0;
+}
+
 GameCharacter::GameCharacter(float x, float y, float speed) {
     jumping = false;
     idleTime = 0;
@@ -93,7 +105,8 @@ void GameCharacter::draw(sf::RenderWindow& window) {
     setAnimation();
     sprite.setPosition(x,y);
     window.draw(sprite);
-    rectangle->draw(window);
+    weapon.draw(window);
+    //rectangle->draw(window);
 }
 
 void GameCharacter::idleAnimation()  {
@@ -180,6 +193,15 @@ void GameCharacter::stopJumping() {
 
 float GameCharacter::getDeltaY() const {
     return deltaY;
+}
+
+void GameCharacter::shoot() {
+    //Il proiettile è sparato nella direzione in cui è orientato hero in un certo istante
+    weapon.shoot(x, y, sign(sprite.getScale().x));
+}
+
+const Weapon &GameCharacter::getWeapon() const {
+    return weapon;
 }
 
 

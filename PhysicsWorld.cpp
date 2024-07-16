@@ -9,6 +9,7 @@
 #include"Rectangle.h"
 #include"BlockGrid.h"
 #include"Block.h"
+#include"Bullet.h"
 
 #include<iostream>
 
@@ -71,6 +72,13 @@ void PhysicsWorld::collisionsHandler() {
                 fallingT0 = frameTime; //Prendo l'istante iniziale in cui cade
             }
 
+        }
+    }
+    for(const auto& itBlock: grid->getBlocks()){
+        for(auto itBullet: hero->getWeapon().getBullets()){
+            if(isColliding(itBullet->getRectangle(), itBlock.getRectangle())){
+                const_cast<Weapon&>(hero->getWeapon()).deleteBullet(itBullet);
+            }
         }
     }
     if(!collidedX)

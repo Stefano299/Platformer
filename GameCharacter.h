@@ -8,6 +8,7 @@
 #include<iostream>
 #include<SFML/Graphics.hpp>
 #include"Rectangle.h"
+#include "Weapon.h"
 
 enum class AnimationType{
     Idle,
@@ -42,6 +43,7 @@ private:
     sf::Texture jumpTexture;
     sf::Texture fallTexture;
     PhysicsWorld* world;
+    Weapon weapon;
 public:
     GameCharacter(float x, float y, float speed);
     void move(int dx);
@@ -56,7 +58,9 @@ public:
     bool isCollidingY() const;
     void stopJumping();
     float getDeltaY() const;
+    void shoot();
     void setPhysicsWorld(PhysicsWorld* w);
+    const Weapon& getWeapon() const;
     Rectangle* getRectangle() const;
     ~GameCharacter();
 };

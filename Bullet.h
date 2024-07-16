@@ -24,6 +24,7 @@ public:
     Bullet(float x, float y, float s, int d);
     void move();
     void draw(sf::RenderWindow& window);
+    Rectangle* getRectangle() const;
     ~Bullet();
 };
 
