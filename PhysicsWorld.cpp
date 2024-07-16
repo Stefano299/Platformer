@@ -22,6 +22,7 @@ void PhysicsWorld::fall(int t0) {  //Prende il tempo frame
 
 void PhysicsWorld::update() {
     collisionsHandler();
+    hero->changeY(1);
 }
 
 void PhysicsWorld::addHero(GameCharacter *hero) {
@@ -32,14 +33,11 @@ PhysicsWorld::PhysicsWorld() {
     hero =nullptr;
 }
 
-bool PhysicsWorld::isCollidingX(Rectangle* rec1, Rectangle* rec2) const {
+bool PhysicsWorld::isColliding(Rectangle* rec1, Rectangle* rec2) const {
     return(rec1->x+rec1->width >rec2->x &&
-           rec2->x+rec2->width > rec1->x);
-}
-
-bool PhysicsWorld::isCollidingY(Rectangle *rec1, Rectangle *rec2) const {
-    return (rec1->y < rec2->y +rec2->height &&
-            rec1->y+rec1->height > rec2->y);
+           rec2->x+rec2->width > rec1->x &&
+           rec1->y < rec2->y +rec2->height &&
+           rec1->y+rec1->height > rec2->y);
 }
 
 
@@ -50,16 +48,21 @@ void PhysicsWorld::addGrid(BlockGrid *grid) {
 void PhysicsWorld::collisionsHandler() {
     bool collidedX = false;
     bool collidedY = false;
-    for(const auto& it: grid->getBlocks()){
-        if(isCollidingX(hero->getRectangle(), it.getRectangle())){
-            collidedX = true;
-            hero->setCollisionX(true);
-            std::cout << "collidingX" << std::endl;
-        }
-        if(isCollidingY(hero->getRectangle(), it.getRectangle())){
-            collidedY = true;
-            hero->setCollisionY(true);
-            std::cout << "collidingY" << std::endl;
+    Rectangle* heroRec = hero->getRectangle();
+    for(const auto& it: grid->getBlocks()) {
+        Rectangle* blockRec = it.getRectangle();
+        if (isColliding(heroRec, blockRec)) {
+            if((heroRec->y+HERO_HEIGTH/2) > blockRec->y) {
+                collidedX = true;
+                hero->setCollisionX(true);
+                std::cout << "collidingX" << std::endl;
+            }
+            else{
+                collidedY = true;
+                hero->setCollisionY(true);
+                //std::cout << "collidingY" << std::endl;
+            }
+
         }
     }
     if(!collidedX)

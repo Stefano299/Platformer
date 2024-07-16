@@ -30,7 +30,8 @@ private:
     float x;
     float y;
     float speed;
-    bool colliding;
+    bool collidingX;
+    bool collidingY;
     Rectangle* rectangle;
     AnimationType animationType;
     sf::Sprite sprite;
@@ -48,7 +49,8 @@ public:
     int getTime() const;
     bool isJumping() const;
     void changeY(float dy);
-    void setCollision(bool c);
+    void setCollisionX(bool c);
+    void setCollisionY(bool c);
     void setPhysicsWorld(PhysicsWorld* w);
     Rectangle* getRectangle() const;
     ~GameCharacter();

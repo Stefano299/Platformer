@@ -16,7 +16,7 @@ GameCharacter::GameCharacter(float x, float y, float speed) {
     this->x = x;
     this->y = y;
     this->speed = speed;
-    colliding = false;
+    collidingX = false;
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
     sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
@@ -51,9 +51,8 @@ void GameCharacter::timeFlow() {
 
 void GameCharacter::move(int dx) {
     rectangle->x = x - 12 * SCALE_FACTORX + (float)dx*speed;
-    rectangle->y = y - 12 * SCALE_FACTORY;
     world->update();
-    if(!colliding) {
+    if(!collidingX) {
         if (!jumping)   //Se salta si muove più lentamente orizzontalmente
             x += (float) dx * speed;
         else
@@ -91,6 +90,16 @@ void GameCharacter::runAnimation() {
     sprite.setTextureRect(sf::IntRect (runTime * 32, 0, 32, 32));
 }
 
+
+void GameCharacter::changeY(float dy) {
+    rectangle->y+=dy;
+    world->collisionsHandler();
+    if(!collidingY)
+        y+=dy;
+    else
+        rectangle->y -=dy;
+}
+
 float GameCharacter::getX() const {
     return x;
 }
@@ -103,11 +112,6 @@ float GameCharacter::getSpeed() const {
     return speed;
 }
 
-void GameCharacter::changeY(float dy) {
-    y+=dy;
-    if(y>=SCREEN_HEIGTH)
-        jumping = false;
-}
 
 void GameCharacter::jump() {
     jumping = true;
@@ -130,12 +134,16 @@ Rectangle *GameCharacter::getRectangle() const {
     return rectangle;
 }
 
-void GameCharacter::setCollision(bool c) {
-    colliding = c;
+void GameCharacter::setCollisionX(bool c) {
+    collidingX = c;
 }
 
 void GameCharacter::setPhysicsWorld(PhysicsWorld *w) {
     world = w;
+}
+
+void GameCharacter::setCollisionY(bool c) {
+    collidingY = c;
 }
 
 

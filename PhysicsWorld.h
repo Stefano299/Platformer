@@ -15,11 +15,10 @@ private:
     GameCharacter* hero;
     BlockGrid* grid;
     void fall(int t0);
-    bool isCollidingX(Rectangle* rec1, Rectangle* rec2) const;
-    bool isCollidingY(Rectangle* rec1, Rectangle* rec2) const;
-    void collisionsHandler();
+    bool isColliding(Rectangle* rec1, Rectangle* rec2) const;
 public:
     PhysicsWorld();
+    void collisionsHandler();
     void update();
     void addHero(GameCharacter* hero);
     void addGrid(BlockGrid* grid);
