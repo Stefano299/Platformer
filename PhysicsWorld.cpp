@@ -56,7 +56,7 @@ void PhysicsWorld::collisionsHandler() {
     for(const auto& it: grid->getBlocks()) {
         Rectangle* blockRec = it.getRectangle();
         if (isColliding(heroRec, blockRec)) {
-            if() {
+            if(abs(hero->getY()-HERO_HEIGTH/2-it.getY())< HERO_HEIGTH) { //Per controllare quando la collisione avviene per il movimento orizzontale di hero contro qualcosa
                 collidedX = true;
                 hero->setCollisionX(true);
                 std::cout << "collidingX" << std::endl;

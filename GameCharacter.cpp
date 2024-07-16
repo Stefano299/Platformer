@@ -78,8 +78,9 @@ void GameCharacter::draw(sf::RenderWindow& window) {
     timeFlow();
     setAnimation();
     if(jumping) {
-        changeY(-15);  //Lo fa saltare
+        changeY(-17);  //Lo fa saltare
     }
+    sprite.setPosition(x,y);
     window.draw(sprite);
     rectangle->draw(window);
 }
