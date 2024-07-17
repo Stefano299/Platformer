@@ -4,8 +4,8 @@ project(Platformer)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(Platformer main.cpp
-        GameCharacter.cpp
-        GameCharacter.h
+        Hero.cpp
+        Hero.h
         constants.h
         frameTime.h
         PhysicsWorld.cpp
@@ -20,5 +20,7 @@ add_executable(Platformer main.cpp
         Weapon.h
         Bullet.cpp
         Bullet.h
+        GameCharacter.cpp
+        GameCharacter.h
 )
 target_link_libraries(Platformer sfml-graphics sfml-window sfml-system sfml-network sfml-audio)

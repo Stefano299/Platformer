@@ -3,7 +3,7 @@
 //
 
 #include "PhysicsWorld.h"
-#include"GameCharacter.h"
+#include"Hero.h"
 #include"frameTime.h"
 #include"constants.h"
 #include"Rectangle.h"
@@ -33,7 +33,7 @@ void PhysicsWorld::update() {
     fall(); //Far cadere il personaggio se non cè una piattaforma sotto
 }
 
-void PhysicsWorld::addHero(GameCharacter *hero) {
+void PhysicsWorld::addHero(Hero *hero) {
     this->hero = hero;
 }
 

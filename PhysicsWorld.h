@@ -9,10 +9,10 @@
 
 class BlockGrid;
 class Rectangle;
-class GameCharacter;
+class Hero;
 class PhysicsWorld {
 private:
-    GameCharacter* hero;
+    Hero* hero;
     BlockGrid* grid;
     void fall();
     bool isColliding(Rectangle* rec1, Rectangle* rec2) const;
@@ -21,7 +21,7 @@ public:
     PhysicsWorld();
     void collisionsHandler();
     void update();
-    void addHero(GameCharacter* hero);
+    void addHero(Hero* hero);
     void addGrid(BlockGrid* grid);
 };
 

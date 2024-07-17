@@ -5,7 +5,7 @@
 
 #include"constants.h"
 #include"frameTime.h"
-#include"GameCharacter.h"
+#include"Hero.h"
 #include"PhysicsWorld.h"
 #include"Block.h"
 #include"BlockGrid.h"
@@ -17,9 +17,9 @@ long int frameTime = 0;
 
 void initWindow(sf::RenderWindow& window);
 void initBackground(sf::Sprite& sprite);
-void update(sf::RenderWindow& window, const sf::Sprite& background, GameCharacter& hero, PhysicsWorld& world, const BlockGrid& grid);
-void handleEvents(sf::RenderWindow &window, BlockGrid& grid, GameCharacter& hero);
-void handleHeroMovement(GameCharacter &hero);
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid);
+void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero);
+void handleHeroMovement(Hero &hero);
 void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid);
 
 int main() {
@@ -29,7 +29,7 @@ int main() {
     Block::loadTextures();
     BlockGrid grid(GRID_WIDTH, GRID_HEIGHT);
     sf::Sprite background;
-    GameCharacter hero(500, 200, 8.0f);
+    Hero hero(500, 200, 8.0f);
     addBlock(sf::Vector2i (500, SCREEN_HEIGTH-100), grid);
     world.addHero(&hero);
     world.addGrid(&grid);
@@ -43,7 +43,7 @@ int main() {
     return 0;
 }
 
-void handleHeroMovement(GameCharacter &hero) {
+void handleHeroMovement(Hero &hero) {
     int dx = 0;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         dx=-1;
@@ -57,7 +57,7 @@ void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid){
     grid.addBlock(Block((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, Type::green));
 }
 
-void handleEvents(sf::RenderWindow &window, BlockGrid& grid, GameCharacter& hero) {
+void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero) {
     sf::Event event;
     while(window.pollEvent(event)){
         if(event.type == sf::Event::Closed){
@@ -87,7 +87,7 @@ void initWindow(sf::RenderWindow& window){
     window.setKeyRepeatEnabled(false);
 }
 
-void update(sf::RenderWindow& window, const sf::Sprite& background, GameCharacter& hero, PhysicsWorld& world,  const BlockGrid& grid){
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid){
     frameTime++;
     window.clear();
     window.draw(background);
