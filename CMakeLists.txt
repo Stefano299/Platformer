@@ -22,5 +22,7 @@ add_executable(Platformer main.cpp
         Bullet.h
         GameCharacter.cpp
         GameCharacter.h
+        Slime.cpp
+        Slime.h
 )
 target_link_libraries(Platformer sfml-graphics sfml-window sfml-system sfml-network sfml-audio)

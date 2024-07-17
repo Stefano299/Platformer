@@ -28,3 +28,11 @@ void Weapon::deleteBullet(Bullet* bullet) {
     bullets.erase(it);
     delete bullet;
 }
+
+Weapon::Weapon() {
+    damage = 5;
+}
+
+int Weapon::getDamage() const {
+    return damage;
+}

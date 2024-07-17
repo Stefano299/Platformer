@@ -10,19 +10,21 @@
 #include"Block.h"
 #include"BlockGrid.h"
 #include"Bullet.h"
-
+#include"Slime.h"
 using namespace std;
 
 long int frameTime = 0;
 
 void initWindow(sf::RenderWindow& window);
 void initBackground(sf::Sprite& sprite);
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid);
-void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero);
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, Slime* slime);
+void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, Slime*& slime, PhysicsWorld& world);
 void handleHeroMovement(Hero &hero);
 void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid);
+void addSlime(const sf::Vector2i& mousePos, Slime*& slime);
 
 int main() {
+    Slime* slime = nullptr;
     sf::RenderWindow window;
     initWindow(window);
     PhysicsWorld world;
@@ -36,10 +38,11 @@ int main() {
     hero.setPhysicsWorld(&world);
     initBackground(background);
     while(window.isOpen()){
-        handleEvents(window, grid, hero);
+        handleEvents(window, grid, hero, slime, world);
         handleHeroMovement(hero);
-        update(window, background, hero, world, grid);
+        update(window, background, hero, world, grid, slime);
     }
+    delete slime;
     return 0;
 }
 
@@ -54,10 +57,15 @@ void handleHeroMovement(Hero &hero) {
     hero.move(dx);
 }
 void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid){
-    grid.addBlock(Block((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, Type::green));
+    float gridX = (mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH;
+    float gridY = (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH;
+    if(!grid.isBlockPresent(gridX, gridY)){  //Sennò tenendo premuto si mettono un sacco di blocchi
+        grid.addBlock(Block(gridX, gridY,Type::green));
+        cout << "block added" << endl;
+    }
 }
 
-void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero) {
+void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, Slime*& slime, PhysicsWorld& world) {
     sf::Event event;
     while(window.pollEvent(event)){
         if(event.type == sf::Event::Closed){
@@ -65,10 +73,14 @@ void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero) {
         }
         else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::E)
             hero.shoot();
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){  //TODO renderlo un evento o spostarlo
+        else if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){  //TODO renderlo un evento o spostarlo
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            std::cout << mousePos.x << " PRESSED" << endl;
             addBlock(mousePos, grid);
+        }
+        else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::L){
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            addSlime(mousePos, slime);
+            world.addSlime(slime);
         }
     }
 }
@@ -87,12 +99,20 @@ void initWindow(sf::RenderWindow& window){
     window.setKeyRepeatEnabled(false);
 }
 
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid){
+void addSlime(const sf::Vector2i& mousePos, Slime*& slime){
+    slime = new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f);
+}
+
+
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, Slime* slime){
     frameTime++;
     window.clear();
     window.draw(background);
     hero.draw(window);
     world.update();
     grid.draw(window);
+    if(slime!= nullptr) {
+        slime->draw(window);
+    }
     window.display();
 }

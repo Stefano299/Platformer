@@ -55,8 +55,6 @@ void Hero::setAnimation() {
 void Hero::timeFlow() {
     if(frameTime%3 ==  0) {
         idleTime++;
-    }
-    if(frameTime%3 == 0){
         runTime++;
     }
     if(idleTime >= 10)
@@ -145,13 +143,6 @@ void Hero::jump() {
         jumping = true;
 
 }
-
-
-Hero::~Hero() {
-    delete rectangle;
-}
-
-
 
 void Hero::setCollisionX(bool c) {
     collidingX = c;

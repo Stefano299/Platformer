@@ -12,12 +12,14 @@ class Bullet;
 class Weapon {
 private:
     std::vector<Bullet*> bullets;
+    int damage;
 public:
-    Weapon() = default;
+    Weapon();
     void shoot(float x, float y, int dir);
     const std::vector<Bullet*>& getBullets() const;
     void deleteBullet(Bullet* bullet);
     void draw(sf::RenderWindow& window) const;
+    int getDamage() const;
     ~Weapon();
 };
 

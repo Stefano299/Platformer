@@ -10,16 +10,15 @@
 #include"BlockGrid.h"
 #include"Block.h"
 #include"Bullet.h"
+#include "Slime.h"
 
 #include<iostream>
-
-
-
 
 
 PhysicsWorld::PhysicsWorld() {
     fallingT0 = frameTime;
     hero =nullptr;
+    slime = nullptr;
 }
 
 void PhysicsWorld::fall() {  //Prende il tempo frame
@@ -31,6 +30,8 @@ void PhysicsWorld::fall() {  //Prende il tempo frame
 void PhysicsWorld::update() {
     collisionsHandler();
     fall(); //Far cadere il personaggio se non cè una piattaforma sotto
+    hitDetection();
+    enemyMovement();
 }
 
 void PhysicsWorld::addHero(Hero *hero) {
@@ -61,7 +62,7 @@ void PhysicsWorld::collisionsHandler() {
             if(abs(hero->getY()-HERO_HEIGTH/2-it.getY())< HERO_HEIGTH){  //Se sbatte la  testa sotto una pittaforma smette di saltare
                 collidedX = true;
                 hero->setCollisionX(true);
-                if(abs(hero->getX()-it.getX()) < HERO_WIDTH*(3/2) && heroRec->y > blockRec->y+BLOCK_HEIGTH-3 && hero->getDeltaY()>0) { // CONTROLLA SIA SALENDO!
+                if(abs(hero->getX()-it.getX()) < HERO_WIDTH*(3/2) && heroRec->y > blockRec->y+BLOCK_HEIGTH/2 && hero->getDeltaY()>0) { // CONTROLLA SIA SALENDO!
                     hero->stopJumping();
                     fallingT0 = frameTime-2;
                 }
@@ -85,6 +86,36 @@ void PhysicsWorld::collisionsHandler() {
         hero->setCollisionX(false); //Sennè se colldie con un solo blocco non collide affatto
     if(!collidedY) {
         hero->setCollisionY(false);
+    }
+}
+
+void PhysicsWorld::addSlime(Slime *slime) {
+    this->slime = slime;
+}
+
+void PhysicsWorld::hitDetection() {
+    if(slime != nullptr){
+        for(auto itBullet: hero->getWeapon().getBullets()){
+            if(isColliding(itBullet->getRectangle(), slime->getRectangle())){
+                slime->hit(hero->getWeapon().getDamage());
+                const_cast<Weapon&>(hero->getWeapon()).deleteBullet(itBullet); //Colpito il nemico il proiettile scompare
+            }
+        }
+    }
+}
+
+void PhysicsWorld::enemyMovement() {
+    if(slime != nullptr){
+        for(const auto& it: grid->getBlocks()) {
+            if(abs(it.getY() - slime->getRectangle()->y) <= BLOCK_HEIGTH ) { //Controllo i blocchi sotto lo slime
+                if (slime->getRectangle()->x <= it.getX() && !grid->isBlockPresent(it.getX() - 5, it.getY()) ||
+                    slime->getRectangle()->x + (slime->getRectangle()->width - BLOCK_WIDTH) >= it.getX() &&
+                    !grid->isBlockPresent(it.getX() + BLOCK_WIDTH + 5, it.getY())) {
+                    slime->changeDirection();
+                    std::cout << "changing" << std::endl;
+                }
+            }
+        }
     }
 }
 

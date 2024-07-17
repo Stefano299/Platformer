@@ -10,12 +10,16 @@
 class BlockGrid;
 class Rectangle;
 class Hero;
+class Slime;
 class PhysicsWorld {
 private:
     Hero* hero;
     BlockGrid* grid;
+    Slime* slime;
     void fall();
     bool isColliding(Rectangle* rec1, Rectangle* rec2) const;
+    void hitDetection();
+    void enemyMovement();
     long int fallingT0;
 public:
     PhysicsWorld();
@@ -23,6 +27,7 @@ public:
     void update();
     void addHero(Hero* hero);
     void addGrid(BlockGrid* grid);
+    void addSlime(Slime* slime);
 };
 
 

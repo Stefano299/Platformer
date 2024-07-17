@@ -25,3 +25,8 @@ float GameCharacter::getSpeed() const {
 Rectangle *GameCharacter::getRectangle() const {
     return rectangle;
 }
+
+GameCharacter::~GameCharacter() {
+    delete rectangle;
+}
+

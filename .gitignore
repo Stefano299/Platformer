@@ -38,3 +38,13 @@
 /.idea/modules.xml
 /.idea/Platformer.iml
 /.idea/vcs.xml
+/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-ac45d9756120b7b0cd74.json
+/cmake-build-debug/.cmake/api/v1/reply/index-2024-07-17T08-11-33-0786.json
+/cmake-build-debug/.cmake/api/v1/reply/target-Platformer-Debug-c946865b30eb56f9aef4.json
+/cmake-build-debug/CMakeFiles/Platformer.dir/Block.cpp.o
+/cmake-build-debug/CMakeFiles/Platformer.dir/BlockGrid.cpp.o
+/cmake-build-debug/CMakeFiles/Platformer.dir/Bullet.cpp.o
+/cmake-build-debug/CMakeFiles/Platformer.dir/Hero.cpp.o
+/cmake-build-debug/CMakeFiles/Platformer.dir/PhysicsWorld.cpp.o
+/cmake-build-debug/CMakeFiles/Platformer.dir/Rectangle.cpp.o
+/cmake-build-debug/CMakeFiles/Platformer.dir/Weapon.cpp.o

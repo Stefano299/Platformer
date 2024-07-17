@@ -45,7 +45,7 @@ public:
     void move(int dx) override;
     void draw(sf::RenderWindow& window) override;
     void jump();
-    void changeY(float dy) override;
+    void changeY(float dy);
     void setCollisionX(bool c);
     void setCollisionY(bool c);
     void stopJumping();
@@ -53,7 +53,6 @@ public:
     void shoot();
     void setPhysicsWorld(PhysicsWorld* w);
     const Weapon& getWeapon() const;
-    ~Hero() override;
 };
 
 

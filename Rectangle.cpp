@@ -13,3 +13,4 @@ void Rectangle::draw(sf::RenderWindow& window){
     shape.setPosition(x,y);
     window.draw(shape);
 }
+
