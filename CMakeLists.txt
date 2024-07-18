@@ -24,5 +24,9 @@ add_executable(Platformer main.cpp
         GameCharacter.h
         Slime.cpp
         Slime.h
+        EnemyContainer.cpp
+        EnemyContainer.h
+        Enemy.cpp
+        Enemy.h
 )
 target_link_libraries(Platformer sfml-graphics sfml-window sfml-system sfml-network sfml-audio)

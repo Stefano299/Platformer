@@ -5,14 +5,14 @@
 #ifndef PLATFORMER_SLIME_H
 #define PLATFORMER_SLIME_H
 
-#include"GameCharacter.h"
+#include"Enemy.h"
 
 enum class SlimeAnimationType{
     Run,
     Hit
 };
 
-class Slime:public GameCharacter {
+class Slime:public Enemy {
 private:
     void hitAnimation();
     void runAnimation();
@@ -21,16 +21,11 @@ private:
     sf::Texture hitTexture;
     sf::Texture runTexture;
     SlimeAnimationType animationType;
-    int hp;
     int hitIndex;
     int runIndex;
-    int direction;
 public:
-    Slime(float x, float y, float speed);
-    void move(int dx) override;
+    Slime(float x, float y, float speed, int hp);
     void draw(sf::RenderWindow& window) override;
-    int getDirection() const;
-    void changeDirection();
     void hit(int dmg);
 };
 

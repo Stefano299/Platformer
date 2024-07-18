@@ -4,10 +4,11 @@
 
 #include "GameCharacter.h"
 
-GameCharacter::GameCharacter(float x, float y, float speed) {
+GameCharacter::GameCharacter(float x, float y, float speed, int hp) {
     this->x = x;
     this->y = y;
     this->speed = speed;
+    this->hp = hp;
 }
 
 float GameCharacter::getX() const {
@@ -28,5 +29,9 @@ Rectangle *GameCharacter::getRectangle() const {
 
 GameCharacter::~GameCharacter() {
     delete rectangle;
+}
+
+int GameCharacter::getHp() const {
+    return hp;
 }
 

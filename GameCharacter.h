@@ -17,11 +17,13 @@ protected:
     float speed;
     Rectangle* rectangle;
     sf::Sprite sprite;
+    int hp;
 public:
-    GameCharacter(float x, float y, float speed);
+    GameCharacter(float x, float y, float speed, int hp = 0);
     float getX() const;
     float getY() const;
     float getSpeed() const;
+    int getHp() const;
     Rectangle* getRectangle() const;
     virtual void move(int dx) = 0;
     virtual void draw(sf::RenderWindow& window) = 0;

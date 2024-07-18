@@ -100,7 +100,7 @@ void initWindow(sf::RenderWindow& window){
 }
 
 void addSlime(const sf::Vector2i& mousePos, Slime*& slime){
-    slime = new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f);
+    slime = new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30);
 }
 
 
