@@ -11,20 +11,21 @@
 #include"BlockGrid.h"
 #include"Bullet.h"
 #include"Slime.h"
+#include"EnemyContainer.h"
+
 using namespace std;
 
 long int frameTime = 0;
 
 void initWindow(sf::RenderWindow& window);
 void initBackground(sf::Sprite& sprite);
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, Slime* slime);
-void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, Slime*& slime, PhysicsWorld& world);
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer);
+void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyContainer& enemyContainer, PhysicsWorld& world);
 void handleHeroMovement(Hero &hero);
 void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid);
-void addSlime(const sf::Vector2i& mousePos, Slime*& slime);
+void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
 
 int main() {
-    Slime* slime = nullptr;
     sf::RenderWindow window;
     initWindow(window);
     PhysicsWorld world;
@@ -32,17 +33,18 @@ int main() {
     BlockGrid grid(GRID_WIDTH, GRID_HEIGHT);
     sf::Sprite background;
     Hero hero(500, 200, 8.0f);
+    EnemyContainer enemyContainer;
     addBlock(sf::Vector2i (500, SCREEN_HEIGTH-100), grid);
     world.addHero(&hero);
     world.addGrid(&grid);
+    world.addEnemyContainer(&enemyContainer);
     hero.setPhysicsWorld(&world);
     initBackground(background);
     while(window.isOpen()){
-        handleEvents(window, grid, hero, slime, world);
+        handleEvents(window, grid, hero, enemyContainer, world);
         handleHeroMovement(hero);
-        update(window, background, hero, world, grid, slime);
+        update(window, background, hero, world, grid, enemyContainer);
     }
-    delete slime;
     return 0;
 }
 
@@ -65,7 +67,7 @@ void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid){
     }
 }
 
-void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, Slime*& slime, PhysicsWorld& world) {
+void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyContainer& enemyContainer, PhysicsWorld& world) {
     sf::Event event;
     while(window.pollEvent(event)){
         if(event.type == sf::Event::Closed){
@@ -79,8 +81,7 @@ void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, Slime*&
         }
         else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::L){
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            addSlime(mousePos, slime);
-            world.addSlime(slime);
+            addSlime(mousePos, enemyContainer);
         }
     }
 }
@@ -99,20 +100,18 @@ void initWindow(sf::RenderWindow& window){
     window.setKeyRepeatEnabled(false);
 }
 
-void addSlime(const sf::Vector2i& mousePos, Slime*& slime){
-    slime = new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30);
+void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
+    enemyContainer.addEnemy(new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
 }
 
 
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, Slime* slime){
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){
     frameTime++;
     window.clear();
     window.draw(background);
     hero.draw(window);
     world.update();
     grid.draw(window);
-    if(slime!= nullptr) {
-        slime->draw(window);
-    }
+    enemyContainer.drawAll(window);
     window.display();
 }

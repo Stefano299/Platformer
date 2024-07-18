@@ -7,6 +7,7 @@
 
 #include<SFML/Graphics.hpp>
 
+class EnemyContainer;
 class BlockGrid;
 class Rectangle;
 class Hero;
@@ -15,7 +16,7 @@ class PhysicsWorld {
 private:
     Hero* hero;
     BlockGrid* grid;
-    Slime* slime;
+    EnemyContainer* enemyContainer;
     void fall();
     bool isColliding(Rectangle* rec1, Rectangle* rec2) const;
     void hitDetection();
@@ -27,7 +28,7 @@ public:
     void update();
     void addHero(Hero* hero);
     void addGrid(BlockGrid* grid);
-    void addSlime(Slime* slime);
+    void addEnemyContainer(EnemyContainer* container);
 };
 
 

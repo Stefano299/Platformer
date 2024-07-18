@@ -26,7 +26,7 @@ private:
 public:
     Slime(float x, float y, float speed, int hp);
     void draw(sf::RenderWindow& window) override;
-    void hit(int dmg);
+    void hit(int dmg) override;
 };
 
 

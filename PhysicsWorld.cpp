@@ -13,12 +13,12 @@
 #include "Slime.h"
 
 #include<iostream>
-
+#include"EnemyContainer.h"
 
 PhysicsWorld::PhysicsWorld() {
     fallingT0 = frameTime;
     hero =nullptr;
-    slime = nullptr;
+    enemyContainer = nullptr;
 }
 
 void PhysicsWorld::fall() {  //Prende il tempo frame
@@ -75,7 +75,7 @@ void PhysicsWorld::collisionsHandler() {
 
         }
     }
-    for(const auto& itBlock: grid->getBlocks()){
+    for(const auto& itBlock: grid->getBlocks()){  //Per far scoparire i bullet se colpiscono un blocco
         for(auto itBullet: hero->getWeapon().getBullets()){
             if(isColliding(itBullet->getRectangle(), itBlock.getRectangle())){
                 const_cast<Weapon&>(hero->getWeapon()).deleteBullet(itBullet);
@@ -89,34 +89,35 @@ void PhysicsWorld::collisionsHandler() {
     }
 }
 
-void PhysicsWorld::addSlime(Slime *slime) {
-    this->slime = slime;
-}
-
-void PhysicsWorld::hitDetection() {
-    if(slime != nullptr){
-        for(auto itBullet: hero->getWeapon().getBullets()){
-            if(isColliding(itBullet->getRectangle(), slime->getRectangle())){
-                slime->hit(hero->getWeapon().getDamage());
-                const_cast<Weapon&>(hero->getWeapon()).deleteBullet(itBullet); //Colpito il nemico il proiettile scompare
+void PhysicsWorld::hitDetection() {  //per individuare quando i nemici sono colpiti
+    for(auto itEnemy: enemyContainer->getEnemies()) {
+        for (auto itBullet: hero->getWeapon().getBullets()) {
+            if (isColliding(itBullet->getRectangle(), itEnemy->getRectangle())) {
+                itEnemy->hit(hero->getWeapon().getDamage());
+                const_cast<Weapon &>(hero->getWeapon()).deleteBullet(itBullet); //Colpito il nemico il proiettile scompare
             }
         }
     }
 }
 
-void PhysicsWorld::enemyMovement() {
-    if(slime != nullptr){
+
+void PhysicsWorld::enemyMovement() {  //far andare i nemici avanti e indietro su una piattaforma
+    for(auto itEnemy: enemyContainer->getEnemies()){
         for(const auto& it: grid->getBlocks()) {
-            if(abs(it.getY() - slime->getRectangle()->y) <= BLOCK_HEIGTH ) { //Controllo i blocchi sotto lo slime
-                if (slime->getRectangle()->x <= it.getX() && !grid->isBlockPresent(it.getX() - 5, it.getY()) ||
-                    slime->getRectangle()->x + (slime->getRectangle()->width - BLOCK_WIDTH) >= it.getX() &&
+            if(abs(it.getY() - itEnemy->getRectangle()->y) <= BLOCK_HEIGTH ) { //Controllo i blocchi sotto lo slime
+                if (itEnemy->getRectangle()->x <= it.getX() && !grid->isBlockPresent(it.getX() - 5, it.getY()) ||
+                    itEnemy->getRectangle()->x + (itEnemy->getRectangle()->width - BLOCK_WIDTH) >= it.getX() &&
                     !grid->isBlockPresent(it.getX() + BLOCK_WIDTH + 5, it.getY())) {
-                    slime->changeDirection();
+                    itEnemy->changeDirection();
                     std::cout << "changing" << std::endl;
                 }
             }
         }
     }
+}
+
+void PhysicsWorld::addEnemyContainer(EnemyContainer *container) {
+    enemyContainer = container;
 }
 
 
