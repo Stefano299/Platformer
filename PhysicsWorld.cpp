@@ -104,16 +104,16 @@ void PhysicsWorld::hitDetection() {  //per individuare quando i nemici sono colp
 void PhysicsWorld::enemyMovement() {  //far andare i nemici avanti e indietro su una piattaforma
     for(auto itEnemy: enemyContainer->getEnemies()){
         for(const auto& it: grid->getBlocks()) {
-            if(abs(it.getY() - itEnemy->getRectangle()->y) <= BLOCK_HEIGTH ) { //Controllo i blocchi sotto lo slime
-                if (itEnemy->getRectangle()->x <= it.getX() && !grid->isBlockPresent(it.getX() - 5, it.getY()) ||
+            if(isColliding(itEnemy->getRectangle(), it.getRectangle())) { //Controllo i blocchi sotto lo slime
+                if (itEnemy->getRectangle()->x <= it.getX() && !grid->isBlockPresent(it.getX() - 5, it.getY()) || //Controlla non ci sia un blocco a sinistra
                     itEnemy->getRectangle()->x + (itEnemy->getRectangle()->width - BLOCK_WIDTH) >= it.getX() &&
-                    !grid->isBlockPresent(it.getX() + BLOCK_WIDTH + 5, it.getY())) {
+                    !grid->isBlockPresent(it.getX() + BLOCK_WIDTH + 5, it.getY())) { //COntrola non ci sia un blocco a destra
                     itEnemy->changeDirection();
                     std::cout << "changing" << std::endl;
                 }
             }
         }
-    }
+    }//abs(it.getY() - itEnemy->getRectangle()->y) <= BLOCK_HEIGTH
 }
 
 void PhysicsWorld::addEnemyContainer(EnemyContainer *container) {

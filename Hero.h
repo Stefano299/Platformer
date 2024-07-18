@@ -33,6 +33,7 @@ private:
     bool collidingX;
     bool collidingY;
     float deltaY; //Mi serve per le animazioni di salto e caduta
+    int shootTime;
     AnimationType animationType;
     sf::Texture idleTexture;
     sf::Texture runTexture;

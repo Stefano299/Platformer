@@ -9,9 +9,10 @@
 #include"PhysicsWorld.h"
 #include"Block.h"
 #include"BlockGrid.h"
-#include"Bullet.h"
+#include"HeroBullet.h"
 #include"Slime.h"
 #include"EnemyContainer.h"
+#include"Plant.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyCo
 void handleHeroMovement(Hero &hero);
 void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid);
 void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
+void addPlant(const sf::Vector2i& mosuePos, EnemyContainer& enemyContainer);
 
 int main() {
     sf::RenderWindow window;
@@ -83,6 +85,10 @@ void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyCo
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             addSlime(mousePos, enemyContainer);
         }
+        else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::P){
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            addPlant(mousePos, enemyContainer);
+        }
     }
 }
 
@@ -104,6 +110,9 @@ void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
     enemyContainer.addEnemy(new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
 }
 
+void addPlant(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
+    enemyContainer.addEnemy(new Plant((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
+}
 
 void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){
     frameTime++;

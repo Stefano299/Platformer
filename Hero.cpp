@@ -22,11 +22,13 @@ int sign(float x){
 }
 
 Hero::Hero(float x, float y, float speed): GameCharacter(x, y, speed) {
+    weapon.setType(WeaponType::Hero);
     jumping = false;
     idleTime = 0;
     runTime = 0;
     deltaY = 0;
     collidingX = false;
+    shootTime = 0;
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
     jumpTexture.loadFromFile("../assets/jump.png");
@@ -61,6 +63,7 @@ void Hero::timeFlow() {
         idleTime = 0;
     if(runTime >=11)
         runTime=0;
+    shootTime++;
 }
 
 
@@ -166,7 +169,11 @@ float Hero::getDeltaY() const {
 
 void Hero::shoot() {
     //Il proiettile è sparato nella direzione in cui è orientato hero in un certo istante
-    weapon.shoot(x, y, sign(sprite.getScale().x));
+    if(shootTime >= 60){  //Per non permettergli di sparare troppi colpi
+        weapon.shoot(x, y, sign(sprite.getScale().x));
+        shootTime = 0;
+    }
+
 }
 
 const Weapon &Hero::getWeapon() const {

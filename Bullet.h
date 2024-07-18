@@ -1,5 +1,5 @@
 //
-// Created by stefano on 7/16/24.
+// Created by stefano on 7/18/24.
 //
 
 #ifndef PLATFORMER_BULLET_H
@@ -9,23 +9,20 @@
 
 class Rectangle;
 class Bullet {
-private:
+protected:
     sf::Texture texture;
     sf::Sprite sprite;
     Rectangle* rectangle;
     float x;
     float y;
     float speed;
-    int animIndex;
     int direction;
-    void nextIndex();
-    void updateAnimation();
 public:
     Bullet(float x, float y, float s, int d);
-    void move();
-    void draw(sf::RenderWindow& window);
+    virtual void move();
+    virtual void draw(sf::RenderWindow& window) = 0;
     Rectangle* getRectangle() const;
-    ~Bullet();
+    virtual ~Bullet();
 };
 
 

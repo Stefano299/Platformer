@@ -18,8 +18,8 @@ add_executable(Platformer main.cpp
         Rectangle.cpp
         Weapon.cpp
         Weapon.h
-        Bullet.cpp
-        Bullet.h
+        HeroBullet.cpp
+        HeroBullet.h
         GameCharacter.cpp
         GameCharacter.h
         Slime.cpp
@@ -28,5 +28,11 @@ add_executable(Platformer main.cpp
         EnemyContainer.h
         Enemy.cpp
         Enemy.h
+        Plant.cpp
+        Plant.h
+        Bullet.cpp
+        Bullet.h
+        PlantBullet.cpp
+        PlantBullet.h
 )
 target_link_libraries(Platformer sfml-graphics sfml-window sfml-system sfml-network sfml-audio)

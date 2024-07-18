@@ -3,10 +3,20 @@
 //
 
 #include "Weapon.h"
-#include"Bullet.h"
+#include"HeroBullet.h"
+#include"PlantBullet.h"
+
+Weapon::Weapon() {
+    damage = 5;
+}
 
 void Weapon::shoot(float x, float y, int dir) {
-    bullets.push_back(new Bullet(x,y,15, dir));
+    if(type == WeaponType::Hero) {
+        bullets.push_back(new HeroBullet(x, y, 15, dir));
+    }
+    else if(type == WeaponType::Plant){
+        bullets.push_back(new PlantBullet(x, y, 20, dir));
+    }
 }
 
 const std::vector<Bullet *> &Weapon::getBullets() const {
@@ -29,10 +39,12 @@ void Weapon::deleteBullet(Bullet* bullet) {
     delete bullet;
 }
 
-Weapon::Weapon() {
-    damage = 5;
-}
 
 int Weapon::getDamage() const {
     return damage;
 }
+
+void Weapon::setType(WeaponType type) {
+    this->type = type;
+}
+
