@@ -19,9 +19,10 @@ private:
     float speed;
 public:
     Camera(float width,float heigth, float speed);
-    void setView(sf::RenderWindow& window) const;
-    void arrowsMove(sf::RenderWindow& window); //Muovere la camera con le arrow keys
-    void drawBackground(sf::RenderWindow& window);
+    void arrowsMove(); //Muovere la camera con le arrow keys
+    void update(sf::RenderWindow& window);
+    void move(int dx, int dy);
+    void setCoordinates(float x, float y);
     float getX() const;
     float getY() const;
 };

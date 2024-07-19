@@ -18,10 +18,6 @@ Camera::Camera(float width, float heigth, float speed):width(width), heigth(heig
     backgroundSpr.setPosition(x,y);
 }
 
-void Camera::setView(sf::RenderWindow &window) const{
-    window.setView(view);
-}
-
 float Camera::getX() const {
     return x;
 }
@@ -30,7 +26,7 @@ float Camera::getY() const {
     return y;
 }
 
-void Camera::arrowsMove(sf::RenderWindow& window) {
+void Camera::arrowsMove() {
     int dx = 0;
     int dy = 0;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -41,13 +37,28 @@ void Camera::arrowsMove(sf::RenderWindow& window) {
         dx=+1;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         dx=-1;
-    x += dx*speed;
-    y += dy*speed;
+    x += dx*speed*2; //Se la  muovo con le freccette voglio vada più veloce
+    y += dy*speed*2;
     view.setCenter(x,y);
     backgroundSpr.setPosition(x,y);
-    window.setView(view);
 }
 
-void Camera::drawBackground(sf::RenderWindow &window) {
+void Camera::update(sf::RenderWindow &window) {
+    window.setView(view);
     window.draw(backgroundSpr);
 }
+
+void Camera::move(int dx, int dy) {
+    x+=dx*speed;
+    y+=dy; //il personaggio si muove di dy senza
+    view.setCenter(x,y);
+    backgroundSpr.setPosition(x,y);
+}
+
+void Camera::setCoordinates(float x, float y) {
+    if(x >= SCREEN_WIDTH/2)  //Voglio la camera segua il personaggio solo quando va oltre il punto centrale
+        this->x=x;
+    if(y <= SCREEN_HEIGTH/2)
+        this->y = y;
+}
+

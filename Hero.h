@@ -11,6 +11,7 @@
 #include "Weapon.h"
 #include"GameCharacter.h"
 
+
 enum class AnimationType{
     Idle,
     Run,
@@ -18,6 +19,7 @@ enum class AnimationType{
     Fall
 };
 
+class Camera;
 class PhysicsWorld;
 class Hero: public GameCharacter {
 private:
@@ -40,9 +42,11 @@ private:
     sf::Texture jumpTexture;
     sf::Texture fallTexture;
     PhysicsWorld* world;
+    Camera* camera;
     Weapon weapon;
 public:
     Hero(float x, float y, float speed);
+    Camera* getCamera() const;
     void move(int dx) override;
     void draw(sf::RenderWindow& window) override;
     void jump();
@@ -54,6 +58,7 @@ public:
     void shoot();
     void setPhysicsWorld(PhysicsWorld* w);
     const Weapon& getWeapon() const;
+    ~Hero() override;
 };
 
 

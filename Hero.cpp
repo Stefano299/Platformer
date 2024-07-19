@@ -9,6 +9,7 @@
 #include"constants.h"
 #include"frameTime.h"
 #include"PhysicsWorld.h"
+#include"Camera.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ Hero::Hero(float x, float y, float speed): GameCharacter(x, y, speed) {
     deltaY = 0;
     collidingX = false;
     shootTime = 0;
+    camera = new Camera(SCREEN_WIDTH, SCREEN_HEIGTH, speed);
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
     jumpTexture.loadFromFile("../assets/jump.png");
@@ -67,6 +69,7 @@ void Hero::timeFlow() {
 }
 
 
+
 void Hero::move(int dx) {
     rectangle->x = x - 12 * SCALE_FACTORX + (float)dx*speed;
     world->update();
@@ -102,6 +105,8 @@ void Hero::draw(sf::RenderWindow& window) {
     deltaY= 0;
     setAnimation();
     sprite.setPosition(x,y);
+    camera->update(window);
+    camera->setCoordinates(x,y);
     window.draw(sprite);
     weapon.draw(window);
     //rectangle->draw(window);
@@ -179,6 +184,17 @@ void Hero::shoot() {
 const Weapon &Hero::getWeapon() const {
     return weapon;
 }
+
+Camera *Hero::getCamera() const {
+    return camera;
+}
+
+Hero::~Hero() {
+    delete camera;
+}
+
+
+
 
 
 

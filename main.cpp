@@ -20,7 +20,7 @@ using namespace std;
 long int frameTime = 0;
 
 void initWindow(sf::RenderWindow& window);
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer, Camera& camera);
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer);
 void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyContainer& enemyContainer, PhysicsWorld& world);
 void handleHeroMovement(Hero &hero);
 void addBlock(const sf::Vector2f& mousePos, BlockGrid& grid);
@@ -30,14 +30,12 @@ void addPig(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer);
 
 int main() {
     sf::RenderWindow window;
-    Camera camera(SCREEN_WIDTH, SCREEN_HEIGTH, 16.f);
     initWindow(window);
-    camera.setView(window); //Imposto la telecamera nella finestra
     PhysicsWorld world;
     Block::loadTextures();
     BlockGrid grid(GRID_WIDTH, GRID_HEIGHT);
     sf::Sprite background;
-    Hero hero(500, 200, 8.0f);
+    Hero hero(500, SCREEN_HEIGTH-400, 8.0f);
     EnemyContainer enemyContainer;
     addBlock(sf::Vector2f (500, SCREEN_HEIGTH-100), grid);
     world.addHero(&hero);
@@ -47,8 +45,8 @@ int main() {
     while(window.isOpen()){
         handleEvents(window, grid, hero, enemyContainer, world);
         handleHeroMovement(hero);
-        camera.arrowsMove(window); //TODO spostarla
-        update(window, background, hero, world, grid, enemyContainer, camera);
+        hero.getCamera()->arrowsMove(); //Per muovere la camera con le frecce, incaso serva
+        update(window, background, hero, world, grid, enemyContainer);
     }
     return 0;
 }
@@ -122,10 +120,9 @@ void addPig(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
     enemyContainer.addEnemy(new Pig(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 3.f,30));
 }
 
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer, Camera& camera){
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){
     frameTime++;
     window.clear();
-    camera.drawBackground(window);
     window.draw(background);
     hero.draw(window);
     world.update();
