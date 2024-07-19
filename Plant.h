@@ -38,6 +38,7 @@ public:
     void draw(sf::RenderWindow& window) override;
     void changeShootDir(float dir);
     void shoot();
+    const Weapon& getWeapon() const;
     void hit(int dmg) override;
 };
 

@@ -16,7 +16,7 @@ PlantBullet::PlantBullet(float x, float y, float s, int d) : Bullet(x, y, s, d) 
 void PlantBullet::draw(sf::RenderWindow &window) {
     move();
     window.draw(sprite);
-    rectangle->draw(window);
+    //rectangle->draw(window);
 }
 
 

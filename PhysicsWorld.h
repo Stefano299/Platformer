@@ -21,6 +21,7 @@ private:
     bool isColliding(Rectangle* rec1, Rectangle* rec2) const;
     void hitDetection();
     void enemyMovement();
+    void plantShoot();
     long int fallingT0;
 public:
     PhysicsWorld();

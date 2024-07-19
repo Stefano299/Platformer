@@ -35,3 +35,7 @@ int GameCharacter::getHp() const {
     return hp;
 }
 
+void GameCharacter::hit(int dmg) {
+    hp-=dmg;
+}
+

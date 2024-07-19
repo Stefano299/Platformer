@@ -15,7 +15,6 @@ public:
     void move(int dx) override;
     int getDirection() const;
     virtual void changeDirection();
-    virtual void hit(int dmg) = 0;
 };
 
 

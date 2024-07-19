@@ -27,6 +27,7 @@ public:
     Rectangle* getRectangle() const;
     virtual void move(int dx) = 0;
     virtual void draw(sf::RenderWindow& window) = 0;
+    virtual void hit(int dmg);
     virtual ~GameCharacter();
 };
 

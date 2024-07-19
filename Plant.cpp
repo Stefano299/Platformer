@@ -20,12 +20,12 @@ Plant::Plant(float x, float y, float speed, int hp) : Enemy(x, y, speed, hp) {
     shootTexture.loadFromFile("../assets/plantattack.png");
     idleTexture.loadFromFile("../assets/plantidle.png");
     hitTexture.loadFromFile("../assets/planthit.png");
-    sprite.setOrigin(22, 21);  //La pinta è 44x42
+    sprite.setOrigin(22, 21);  //La pianta è 44x42
     sprite.setScale(3,3);
     this->x+=35;
-    this->y+=30+9; //Voglio metterlo giust sulla piattaforma
+    this->y+=30+5; //Voglio metterlo giust sulla piattaforma
     sprite.setPosition(this->x, this->y);
-    rectangle = new Rectangle(x+2, y+2, 43*2, 34*3);
+    rectangle = new Rectangle(x+2, y-4, 43*2, 34*3);
     hitIndex = 0;
     idleIndex = 0;
     shootIndex = 0;
@@ -69,7 +69,7 @@ void Plant::timeFlow() {
         idleIndex = 0;
     if(shootIndex > 7){
         shootIndex = 0;
-        animationType = PlantAnimationType::Shoot;
+        animationType = PlantAnimationType::Idle; //Dopo aver sparato torna idle
     }
     shootTime++;
 }
@@ -84,11 +84,10 @@ void Plant::setAnimation() {
 }
 
 void Plant::draw(sf::RenderWindow &window) {
-    shoot();
     timeFlow();
     setAnimation();
     move(direction); //Tanto non si muove;
-    rectangle->draw(window);
+    //rectangle->draw(window);
     weapon.draw(window); //Per mostrare i proiettili
     window.draw(sprite);
 }
@@ -100,7 +99,7 @@ void Plant::hit(int dmg) {
 
 void Plant::changeShootDir(float dir) {
     shootDirection = sign2(dir);
-    sprite.scale(shootDirection, 1.f); //Voglio che si  giri lo sprite in base a dove sta guardando
+    sprite.setScale(-shootDirection*3, 3.f); //Voglio che si  giri lo sprite in base a dove sta guardando
 }
 
 void Plant::shoot() {         //Il proiettile è sparato nella direzione in cui è orientato plant in un certo istante
@@ -109,6 +108,10 @@ void Plant::shoot() {         //Il proiettile è sparato nella direzione in cui 
         animationType = PlantAnimationType::Shoot; //Il colpo viene sparato nel metodo shootANimation
         shootTime = 0;
     }
+}
+
+const Weapon &Plant::getWeapon() const {
+    return weapon;
 }
 
 

@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 #include"constants.h"
-#include"frameTime.h"
 #include"Hero.h"
 #include"PhysicsWorld.h"
 #include"Block.h"
@@ -13,6 +12,7 @@
 #include"Slime.h"
 #include"EnemyContainer.h"
 #include"Plant.h"
+#include"Pig.h"
 
 using namespace std;
 
@@ -25,7 +25,8 @@ void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyCo
 void handleHeroMovement(Hero &hero);
 void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid);
 void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
-void addPlant(const sf::Vector2i& mosuePos, EnemyContainer& enemyContainer);
+void addPlant(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
+void addPig(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
 
 int main() {
     sf::RenderWindow window;
@@ -89,6 +90,10 @@ void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyCo
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             addPlant(mousePos, enemyContainer);
         }
+        else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::O){
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            addPig(mousePos, enemyContainer);
+        }
     }
 }
 
@@ -107,11 +112,15 @@ void initWindow(sf::RenderWindow& window){
 }
 
 void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
-    enemyContainer.addEnemy(new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
+    enemyContainer.addEnemy(new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 0.f,30));
 }
 
 void addPlant(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
     enemyContainer.addEnemy(new Plant((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
+}
+
+void addPig(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
+    enemyContainer.addEnemy(new Pig((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 3.f,30));
 }
 
 void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){

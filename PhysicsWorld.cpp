@@ -11,7 +11,8 @@
 #include"Block.h"
 #include"Bullet.h"
 #include "Slime.h"
-
+#include"PlantBullet.h"
+#include"Plant.h"
 #include<iostream>
 #include"EnemyContainer.h"
 
@@ -32,6 +33,7 @@ void PhysicsWorld::update() {
     fall(); //Far cadere il personaggio se non cè una piattaforma sotto
     hitDetection();
     enemyMovement();
+    plantShoot();
 }
 
 void PhysicsWorld::addHero(Hero *hero) {
@@ -82,6 +84,7 @@ void PhysicsWorld::collisionsHandler() {
             }
         }
     }
+
     if(!collidedX)
         hero->setCollisionX(false); //Sennè se colldie con un solo blocco non collide affatto
     if(!collidedY) {
@@ -118,6 +121,30 @@ void PhysicsWorld::enemyMovement() {  //far andare i nemici avanti e indietro su
 
 void PhysicsWorld::addEnemyContainer(EnemyContainer *container) {
     enemyContainer = container;
+}
+
+void PhysicsWorld::plantShoot() {
+    for(auto itEnemy:  enemyContainer->getEnemies()){
+        Plant* plant = dynamic_cast<Plant*>(itEnemy);
+        if(plant!= nullptr){//Volgio considerare solo le piante
+            float dist = itEnemy->getRectangle()->y-hero->getRectangle()->y;
+            if(dist <= hero->getRectangle()->height-20 && dist > 0) { //Mi interessa quando l'eroe è all'altezza della pianta
+                plant->changeShootDir(hero->getX()-plant->getX()); //Cambio la direzione della pianta (in base al fatto se hero si trova  a destra e sinistra)
+                plant->shoot(); //La pianta spara sull'hero
+            }
+            for(auto itPlantBullet: plant->getWeapon().getBullets()){
+                for(const auto& itBlock: grid->getBlocks()){
+                    if(isColliding(itPlantBullet->getRectangle(), itBlock.getRectangle())){
+                        const_cast<Weapon&>(plant->getWeapon()).deleteBullet(itPlantBullet); //Voglio scompaglia il proiettile dell pianta se colpisc eun blocco
+                    }
+                }
+                if (isColliding(itPlantBullet->getRectangle(), hero->getRectangle())) {
+                    hero->hit(plant->getWeapon().getDamage());
+                    const_cast<Weapon &>(plant->getWeapon()).deleteBullet(itPlantBullet); //Colpito il hero il proiettile scompare
+                }
+            }
+        }
+    }
 }
 
 
