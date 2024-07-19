@@ -36,5 +36,7 @@ add_executable(Platformer main.cpp
         PlantBullet.h
         Pig.cpp
         Pig.h
+        Camera.cpp
+        Camera.h
 )
 target_link_libraries(Platformer sfml-graphics sfml-window sfml-system sfml-network sfml-audio)

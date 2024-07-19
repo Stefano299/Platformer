@@ -13,40 +13,42 @@
 #include"EnemyContainer.h"
 #include"Plant.h"
 #include"Pig.h"
+#include"Camera.h"
 
 using namespace std;
 
 long int frameTime = 0;
 
 void initWindow(sf::RenderWindow& window);
-void initBackground(sf::Sprite& sprite);
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer);
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer, Camera& camera);
 void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyContainer& enemyContainer, PhysicsWorld& world);
 void handleHeroMovement(Hero &hero);
-void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid);
-void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
-void addPlant(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
-void addPig(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer);
+void addBlock(const sf::Vector2f& mousePos, BlockGrid& grid);
+void addSlime(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer);
+void addPlant(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer);
+void addPig(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer);
 
 int main() {
     sf::RenderWindow window;
+    Camera camera(SCREEN_WIDTH, SCREEN_HEIGTH, 16.f);
     initWindow(window);
+    camera.setView(window); //Imposto la telecamera nella finestra
     PhysicsWorld world;
     Block::loadTextures();
     BlockGrid grid(GRID_WIDTH, GRID_HEIGHT);
     sf::Sprite background;
     Hero hero(500, 200, 8.0f);
     EnemyContainer enemyContainer;
-    addBlock(sf::Vector2i (500, SCREEN_HEIGTH-100), grid);
+    addBlock(sf::Vector2f (500, SCREEN_HEIGTH-100), grid);
     world.addHero(&hero);
     world.addGrid(&grid);
     world.addEnemyContainer(&enemyContainer);
     hero.setPhysicsWorld(&world);
-    initBackground(background);
     while(window.isOpen()){
         handleEvents(window, grid, hero, enemyContainer, world);
         handleHeroMovement(hero);
-        update(window, background, hero, world, grid, enemyContainer);
+        camera.arrowsMove(window); //TODO spostarla
+        update(window, background, hero, world, grid, enemyContainer, camera);
     }
     return 0;
 }
@@ -61,9 +63,9 @@ void handleHeroMovement(Hero &hero) {
         hero.jump();
     hero.move(dx);
 }
-void addBlock(const sf::Vector2i& mousePos, BlockGrid& grid){
-    float gridX = (mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH;
-    float gridY = (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH;
+void addBlock(const sf::Vector2f& mousePos, BlockGrid& grid){
+    float gridX = ((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH;
+    float gridY = ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH;
     if(!grid.isBlockPresent(gridX, gridY)){  //Sennò tenendo premuto si mettono un sacco di blocchi
         grid.addBlock(Block(gridX, gridY,Type::green));
         cout << "block added" << endl;
@@ -80,29 +82,26 @@ void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyCo
             hero.shoot();
         else if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){  //TODO renderlo un evento o spostarlo
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            addBlock(mousePos, grid);
+            //VOGLIO LE COORDINATE RELATIVE ALLA TELECAMERA!
+            sf::Vector2f  worldPos = window.mapPixelToCoords(mousePos);
+            addBlock(worldPos, grid);
         }
         else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::L){
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            addSlime(mousePos, enemyContainer);
+            sf::Vector2f  worldPos = window.mapPixelToCoords(mousePos);
+            addSlime(worldPos, enemyContainer);
         }
         else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::P){
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            addPlant(mousePos, enemyContainer);
+            sf::Vector2f  worldPos = window.mapPixelToCoords(mousePos);
+            addPlant(worldPos, enemyContainer);
         }
         else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::O){
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            addPig(mousePos, enemyContainer);
+            sf::Vector2f  worldPos = window.mapPixelToCoords(mousePos);
+            addPig(worldPos, enemyContainer);
         }
     }
-}
-
-void initBackground(sf::Sprite& sprite){
-    static sf::Texture texture;  //Sennò viene eliminata
-    texture.loadFromFile("../assets/background.jpg");
-    sprite.setTexture(texture);
-    sprite.scale((float)SCREEN_WIDTH/1920, (float)SCREEN_HEIGTH / 1200);
-    sprite.setPosition(0,0);
 }
 
 void initWindow(sf::RenderWindow& window){
@@ -111,21 +110,22 @@ void initWindow(sf::RenderWindow& window){
     window.setKeyRepeatEnabled(false);
 }
 
-void addSlime(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
-    enemyContainer.addEnemy(new Slime((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 0.f,30));
+void addSlime(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
+    enemyContainer.addEnemy(new Slime(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
 }
 
-void addPlant(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
-    enemyContainer.addEnemy(new Plant((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
+void addPlant(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
+    enemyContainer.addEnemy(new Plant(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 0.f,30));
 }
 
-void addPig(const sf::Vector2i& mousePos, EnemyContainer& enemyContainer){
-    enemyContainer.addEnemy(new Pig((mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, (mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 3.f,30));
+void addPig(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
+    enemyContainer.addEnemy(new Pig(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 3.f,30));
 }
 
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){
+void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer, Camera& camera){
     frameTime++;
     window.clear();
+    camera.drawBackground(window);
     window.draw(background);
     hero.draw(window);
     world.update();
