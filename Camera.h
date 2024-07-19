@@ -7,11 +7,13 @@
 
 #include<SFML/Graphics.hpp>
 
+class HealthBar;
 class Camera {
 private:
     sf::View view;
     sf::Texture backgroundTxt; //Se si muove la camera is muove anche l background
     sf::Sprite backgroundSpr;
+    HealthBar* healthBar;
     float width;
     float heigth;
     float x;
@@ -25,6 +27,7 @@ public:
     void setCoordinates(float x, float y);
     float getX() const;
     float getY() const;
+    ~Camera();
 };
 
 

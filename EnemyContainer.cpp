@@ -12,8 +12,10 @@ void EnemyContainer::addEnemy(Enemy *enemy) {
 
 void EnemyContainer::removeEnemy(Enemy *enemy) {
     auto it = std::find(enemies.begin(),enemies.end(), enemy);
-    if(it != enemies.end())
+    if(it != enemies.end()) {
+        delete *it;
         enemies.erase(it);
+    }
     else
         throw std::invalid_argument("Nemico non esistente");
 }

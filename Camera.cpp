@@ -5,11 +5,13 @@
 #include <iostream>
 #include "Camera.h"
 #include"constants.h"
+#include "HealthBar.h"
 
 Camera::Camera(float width, float heigth, float speed):width(width), heigth(heigth),speed(speed) {
     view.setSize(width, heigth);
     x = width/2;
     y = heigth/2;
+    healthBar = new HealthBar(x-width/2+100, y+heigth-100, 700, 80);
     view.setCenter(x, y);
     backgroundTxt.loadFromFile("../assets/background.jpg");
     backgroundSpr.setTexture(backgroundTxt);
@@ -41,18 +43,18 @@ void Camera::arrowsMove() {
     y += dy*speed*2;
     view.setCenter(x,y);
     backgroundSpr.setPosition(x,y);
+    healthBar->setPosition(x-width/2+100, y-heigth/2+100); //Così lìhealth bar non si muove
 }
 
 void Camera::update(sf::RenderWindow &window) {
     window.setView(view);
     window.draw(backgroundSpr);
+    healthBar->draw(window);
 }
 
 void Camera::move(int dx, int dy) {
     x+=dx*speed;
     y+=dy; //il personaggio si muove di dy senza
-    view.setCenter(x,y);
-    backgroundSpr.setPosition(x,y);
 }
 
 void Camera::setCoordinates(float x, float y) {
@@ -60,5 +62,10 @@ void Camera::setCoordinates(float x, float y) {
         this->x=x;
     if(y <= SCREEN_HEIGTH/2)
         this->y = y;
+    healthBar->setPosition(x-width/2+100, y+heigth-100); //per non far muovere healthbar
+}
+
+Camera::~Camera() {
+    delete healthBar;
 }
 

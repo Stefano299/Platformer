@@ -15,7 +15,7 @@ int sign2(float x){ //Metoddo sign2 per non avere conflitto di nome con quello d
         return 0;
 }
 
-Plant::Plant(float x, float y, float speed, int hp) : Enemy(x, y, speed, hp) {
+Plant::Plant(float x, float y, float speed, int hp, EnemyContainer* container) : Enemy(x, y, speed, hp, container) {
     weapon.setType(WeaponType::Plant);
     shootTexture.loadFromFile("../assets/plantattack.png");
     idleTexture.loadFromFile("../assets/plantidle.png");
@@ -65,6 +65,9 @@ void Plant::timeFlow() {
         hitIndex = 0;
         animationType = PlantAnimationType::Idle; //Dopo che finisce l'animazione che viene colpito voglio si passi di nuovo a quela che cammina
     }
+    if(hitIndex >= 1 && hp <= 0){
+        container->removeEnemy(this); //Prima di morrie voglio facia l'animazione
+    }
     if(idleIndex > 10)
         idleIndex = 0;
     if(shootIndex > 7){
@@ -84,12 +87,12 @@ void Plant::setAnimation() {
 }
 
 void Plant::draw(sf::RenderWindow &window) {
-    timeFlow();
     setAnimation();
     move(direction); //Tanto non si muove;
     //rectangle->draw(window);
     weapon.draw(window); //Per mostrare i proiettili
     window.draw(sprite);
+    timeFlow();
 }
 
 void Plant::hit(int dmg) {

@@ -7,7 +7,7 @@
 #include"PlantBullet.h"
 
 Weapon::Weapon() {
-    damage = 5;
+    damage = 0;
 }
 
 void Weapon::shoot(float x, float y, int dir) {
@@ -46,5 +46,9 @@ int Weapon::getDamage() const {
 
 void Weapon::setType(WeaponType type) {
     this->type = type;
+    if(type == WeaponType::Hero)
+        damage = 10;
+    else
+        damage = 5;
 }
 

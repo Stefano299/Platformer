@@ -24,7 +24,7 @@ private:
     int hitIndex;
     int runIndex;
 public:
-    Slime(float x, float y, float speed, int hp);
+    Slime(float x, float y, float speed, int hp, EnemyContainer* container);
     void draw(sf::RenderWindow& window) override;
     void hit(int dmg) override;
 };

@@ -9,6 +9,7 @@ sf::Texture purple;
 std::map<Type, sf::Texture> Block::textures;
 
 Block::Block(float x, float y, Type type) : x(x), y(y), type(type) {
+    std::cout << y  << std::endl;
     auto it = textures.find(type);
     if (it != textures.end()) {
         sprite.setTexture(it->second);

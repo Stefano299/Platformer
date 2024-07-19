@@ -34,7 +34,7 @@ private:
     Weapon weapon;
     int shootTime;
 public:
-    Plant(float x, float y, float speed, int hp);
+    Plant(float x, float y, float speed, int hp, EnemyContainer* enemyContainer);
     void draw(sf::RenderWindow& window) override;
     void changeShootDir(float dir);
     void shoot();

@@ -125,7 +125,7 @@ void PhysicsWorld::addEnemyContainer(EnemyContainer *container) {
 
 void PhysicsWorld::plantShoot() {
     for(auto itEnemy:  enemyContainer->getEnemies()){
-        Plant* plant = dynamic_cast<Plant*>(itEnemy);
+        Plant* plant = dynamic_cast<Plant*>(itEnemy); //TODO risolvere bug che fa crashare
         if(plant!= nullptr){//Volgio considerare solo le piante
             float dist = itEnemy->getRectangle()->y-hero->getRectangle()->y;
             if(dist <= hero->getRectangle()->height-20 && dist > 0) { //Mi interessa quando l'eroe è all'altezza della pianta

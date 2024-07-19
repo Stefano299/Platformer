@@ -14,10 +14,17 @@
 #include"Plant.h"
 #include"Pig.h"
 #include"Camera.h"
+#include"HealthBar.h"
 
 using namespace std;
 
 long int frameTime = 0;
+
+int toGrid(float y){ //Per gestire quando i blocchi vengono messi in y negative (il blocco verrebbe messo nella casella più in basso)
+    if(y <= 0)
+        y -=BLOCK_HEIGTH;
+    return ((int)y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH;
+}
 
 void initWindow(sf::RenderWindow& window);
 void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer);
@@ -63,7 +70,7 @@ void handleHeroMovement(Hero &hero) {
 }
 void addBlock(const sf::Vector2f& mousePos, BlockGrid& grid){
     float gridX = ((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH;
-    float gridY = ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH;
+    float gridY = toGrid(mousePos.y);
     if(!grid.isBlockPresent(gridX, gridY)){  //Sennò tenendo premuto si mettono un sacco di blocchi
         grid.addBlock(Block(gridX, gridY,Type::green));
         cout << "block added" << endl;
@@ -109,15 +116,15 @@ void initWindow(sf::RenderWindow& window){
 }
 
 void addSlime(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
-    enemyContainer.addEnemy(new Slime(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 5.f,30));
+    enemyContainer.addEnemy(new Slime(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, toGrid(mousePos.y), 5.f,30, &enemyContainer));
 }
 
 void addPlant(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
-    enemyContainer.addEnemy(new Plant(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 0.f,30));
+    enemyContainer.addEnemy(new Plant(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, toGrid(mousePos.y), 0.f,30, &enemyContainer));
 }
 
 void addPig(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
-    enemyContainer.addEnemy(new Pig(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, ((int)mousePos.y/(int)BLOCK_HEIGTH)*BLOCK_HEIGTH, 3.f,30));
+    enemyContainer.addEnemy(new Pig(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, toGrid(mousePos.y), 3.f,30, &enemyContainer));
 }
 
 void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){

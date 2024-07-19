@@ -6,7 +6,7 @@
 #include"constants.h"
 #include"frameTime.h"
 #include <iostream>
-Slime::Slime(float x, float y, float speed, int hp): Enemy(x, y, speed, hp) {
+Slime::Slime(float x, float y, float speed, int hp, EnemyContainer* container): Enemy(x, y, speed, hp, container) {
     runTexture.loadFromFile("../assets/enemyrun.png");
     hitTexture.loadFromFile("../assets/enemyhit.png");
     sprite.setOrigin(22, 15);
@@ -24,10 +24,11 @@ Slime::Slime(float x, float y, float speed, int hp): Enemy(x, y, speed, hp) {
 
 
 void Slime::draw(sf::RenderWindow &window) {
-    timeFlow();
     setAnimation();
     move(direction);
     window.draw(sprite);
+    timeFlow();
+
     //rectangle->draw(window);
 }
 
@@ -39,6 +40,9 @@ void Slime::timeFlow() {
     if(hitIndex > 4) {
         hitIndex = 0;
         animationType = SlimeAnimationType::Run; //Dopo che finisce l'animazione che viene colpito voglio si passi di nuovo a quela che cammina
+    }
+    if(hitIndex >= 1 && hp <= 0){
+        container->removeEnemy(this); //Prima di morrie voglio facia l'animazione
     }
     if(runIndex > 9)
         runIndex = 0;

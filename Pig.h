@@ -28,7 +28,7 @@ private:
     int runIndex;
     int walkIndex;
 public:
-    Pig(float x, float y, float speed, int hp);
+    Pig(float x, float y, float speed, int hp, EnemyContainer* container);
     void draw(sf::RenderWindow& window) override;
     void hit(int dmg) override;
 };

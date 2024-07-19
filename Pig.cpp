@@ -13,7 +13,7 @@
 #include"frameTime.h"
 #include <iostream>
 
-Pig::Pig(float x, float y, float speed, int hp): Enemy(x, y, speed, hp) {
+Pig::Pig(float x, float y, float speed, int hp, EnemyContainer* container): Enemy(x, y, speed, hp, container) {
     walkTexture.loadFromFile("../assets/pigwalk.png");
     hitTexture.loadFromFile("../assets/pighit.png");
     runTexture.loadFromFile("../assets/pigrun.png");
@@ -33,10 +33,10 @@ Pig::Pig(float x, float y, float speed, int hp): Enemy(x, y, speed, hp) {
 
 
 void Pig::draw(sf::RenderWindow &window) {
-    timeFlow();
     setAnimation();
     move(direction);
     window.draw(sprite);
+    timeFlow();
     //rectangle->draw(window);
 }
 
@@ -51,6 +51,9 @@ void Pig::timeFlow() {
         hitIndex = 0;
         animationType = PigAnimationType::Run; //Dopo che finisce l'animazione che viene colpito voglio si passi di nuovo a quela che cammina
         speed = 9.f; //Aumenta la sua velocità!!
+    }
+    if(hitIndex >= 1 && hp <= 0){
+        container->removeEnemy(this); //Prima di morrie voglio facia l'animazione
     }
     if(runIndex > 11)
         runIndex = 0;

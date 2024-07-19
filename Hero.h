@@ -58,6 +58,7 @@ public:
     void shoot();
     void setPhysicsWorld(PhysicsWorld* w);
     const Weapon& getWeapon() const;
+    void hit(int dmg) override;
     ~Hero() override;
 };
 

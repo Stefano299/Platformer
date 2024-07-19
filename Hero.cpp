@@ -106,7 +106,9 @@ void Hero::draw(sf::RenderWindow& window) {
     setAnimation();
     sprite.setPosition(x,y);
     camera->update(window);
-    camera->setCoordinates(x,y);
+    if(animationType!=AnimationType::Idle){ //Se è fermo voglio poter muove la camera con le frecce
+        camera->setCoordinates(x,y);
+    }
     window.draw(sprite);
     weapon.draw(window);
     //rectangle->draw(window);
@@ -191,6 +193,10 @@ Camera *Hero::getCamera() const {
 
 Hero::~Hero() {
     delete camera;
+}
+
+void Hero::hit(int dmg) {
+    hp -= dmg;
 }
 
 
