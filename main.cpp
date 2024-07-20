@@ -42,7 +42,7 @@ int main() {
     Block::loadTextures();
     BlockGrid grid(GRID_WIDTH, GRID_HEIGHT);
     sf::Sprite background;
-    Hero hero(500, SCREEN_HEIGTH-400, 8.0f);
+    Hero hero(500, SCREEN_HEIGTH-400, 8.0f, 40);
     EnemyContainer enemyContainer;
     addBlock(sf::Vector2f (500, SCREEN_HEIGTH-100), grid);
     world.addHero(&hero);

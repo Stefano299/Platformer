@@ -10,10 +10,11 @@ HealthBar::HealthBar(float x, float y, float width, float heigth) {
     this->y = y;
     this->heigth = heigth;
     this->width = width;
+    maxWidth = width; //La larghezza iniziale che non diminuisce
     bar.setSize(sf::Vector2f (width, heigth));
     bar.setPosition(x, y);  //Considero lo spessore del bordo (10 px)
-    bar.setFillColor(sf::Color::Green);
-    border.setSize(sf::Vector2f (width-10,heigth));
+    bar.setFillColor(sf::Color(22,201,88));
+    border.setSize(sf::Vector2f (width,heigth));
     border.setPosition(x,y);
     border.setFillColor(sf::Color(0, 0, 0, 0)); //Il bordo è un rettanglolo trasparente
     border.setOutlineThickness(10);
@@ -30,4 +31,19 @@ void HealthBar::setPosition(float x, float y) {
     this->y = y;
     bar.setPosition(x,y);
     border.setPosition(x,y);
+}
+
+void HealthBar::update(int hp, int maxHealth) {
+    //hp:maxHealth=x:maxWidth, faccio una proporzione
+    width = ((float)hp/maxHealth)*maxWidth;
+    if(width >=0){
+        bar.setSize(sf::Vector2f (width,heigth)); //Devo aggiornare la dimensione
+    }
+    else {
+        width = 0; //sennò va negativa
+    }
+    if((float)hp/maxHealth <= 0.3)
+        bar.setFillColor(sf::Color(216,12,39));
+    else if((float)hp/maxHealth <= 0.6)
+        bar.setFillColor(sf::Color(255,128,0));
 }

@@ -45,7 +45,7 @@ private:
     Camera* camera;
     Weapon weapon;
 public:
-    Hero(float x, float y, float speed);
+    Hero(float x, float y, float speed, int hp);
     Camera* getCamera() const;
     void move(int dx) override;
     void draw(sf::RenderWindow& window) override;

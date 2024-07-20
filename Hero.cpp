@@ -22,7 +22,7 @@ int sign(float x){
         return 0;
 }
 
-Hero::Hero(float x, float y, float speed): GameCharacter(x, y, speed) {
+Hero::Hero(float x, float y, float speed, int hp): GameCharacter(x, y, speed, hp) {
     weapon.setType(WeaponType::Hero);
     jumping = false;
     idleTime = 0;
@@ -197,6 +197,7 @@ Hero::~Hero() {
 
 void Hero::hit(int dmg) {
     hp -= dmg;
+    camera->updateHealthBar(hp, maxHealth);
 }
 
 

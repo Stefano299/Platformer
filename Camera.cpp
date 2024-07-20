@@ -49,7 +49,7 @@ void Camera::arrowsMove() {
 void Camera::update(sf::RenderWindow &window) {
     window.setView(view);
     window.draw(backgroundSpr);
-    healthBar->draw(window);
+    healthBar->draw(window); //TODO aumentarne la priorità
 }
 
 void Camera::move(int dx, int dy) {
@@ -67,5 +67,9 @@ void Camera::setCoordinates(float x, float y) {
 
 Camera::~Camera() {
     delete healthBar;
+}
+
+void Camera::updateHealthBar(int hp, int maxHealth) {
+    healthBar->update(hp, maxHealth);
 }
 

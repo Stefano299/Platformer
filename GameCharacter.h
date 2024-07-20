@@ -17,6 +17,7 @@ protected:
     float speed;
     Rectangle* rectangle;
     sf::Sprite sprite;
+    int maxHealth;
     int hp;
 public:
     GameCharacter(float x, float y, float speed, int hp = 0);

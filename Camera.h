@@ -27,6 +27,7 @@ public:
     void setCoordinates(float x, float y);
     float getX() const;
     float getY() const;
+    void updateHealthBar(int hp, int maxHealth);
     ~Camera();
 };
 

@@ -9,6 +9,7 @@ GameCharacter::GameCharacter(float x, float y, float speed, int hp) {
     this->y = y;
     this->speed = speed;
     this->hp = hp;
+    maxHealth = hp; //I punti vita sono quelli che decrescono
 }
 
 float GameCharacter::getX() const {
