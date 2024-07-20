@@ -30,6 +30,7 @@ Hero::Hero(float x, float y, float speed, int hp): GameCharacter(x, y, speed, hp
     deltaY = 0;
     collidingX = false;
     shootTime = 0;
+    collidingEnemy = 0;
     camera = new Camera(SCREEN_WIDTH, SCREEN_HEIGTH, speed);
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
@@ -66,30 +67,39 @@ void Hero::timeFlow() {
     if(runTime >=11)
         runTime=0;
     shootTime++;
+    if(collidingEnemy){
+        collidingTime++;
+    }
+    if(collidingTime > 30) { //Se colpisce un nemico si ferma per circ 0.5 secondi
+        collidingTime = 0;
+        collidingEnemy = false;
+    }
 }
 
 
 
 void Hero::move(int dx) {
-    rectangle->x = x - 12 * SCALE_FACTORX + (float)dx*speed;
-    world->update();
-    if(!collidingX) {
-        if (!jumping)   //Se salta si muove più lentamente orizzontalmente
-            x += (float) dx * speed;
-        else
-            x += (float) dx * (speed / 1.75);
-        if (dx == 1) {
-            sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
-            animationType = AnimationType::Run;
-        } else if (dx == -1) {
-            sprite.setScale(-SCALE_FACTORX, SCALE_FACTORY);
-            animationType = AnimationType::Run;
+    if(!collidingEnemy) {
+        rectangle->x = x - 12 * SCALE_FACTORX + (float) dx * speed;
+        world->fall();
+        world->collisionsHandler();
+        if (!collidingX) { //nons i muove anche se ha da poco colliso con un nemico
+            if (!jumping)   //Se salta si muove più lentamente orizzontalmente
+                x += (float) dx * speed;
+            else
+                x += (float) dx * (speed / 1.75);
+            if (dx == 1) {
+                sprite.setScale(SCALE_FACTORX, SCALE_FACTORY);
+                animationType = AnimationType::Run;
+            } else if (dx == -1) {
+                sprite.setScale(-SCALE_FACTORX, SCALE_FACTORY);
+                animationType = AnimationType::Run;
+            } else
+                animationType = AnimationType::Idle;
+            sprite.setPosition(x, y);
         } else
-            animationType = AnimationType::Idle;
-        sprite.setPosition(x, y);
+            rectangle->x = x - 12 * SCALE_FACTORX;
     }
-    else
-        rectangle->x = x - 12 * SCALE_FACTORX;
 }
 
 
@@ -149,7 +159,7 @@ void Hero::changeY(float dy) {
 }
 
 void Hero::jump() {
-    if(deltaY == 0) //Se sta cadendo o saltando non pà (ri)saltare
+    if(deltaY == 0 && !collidingEnemy) //Se sta cadendo o saltando non pà (ri)saltare
         jumping = true;
 
 }
@@ -195,9 +205,13 @@ Hero::~Hero() {
     delete camera;
 }
 
-void Hero::hit(int dmg) {
+void Hero::hit(int dmg, bool collided ) {
     hp -= dmg;
     camera->updateHealthBar(hp, maxHealth);
+    if(collided) { //Se collide con un nemico voglio stia fermo per un poò
+        collidingEnemy = true;
+        animationType = AnimationType::Idle;
+    }
 }
 
 

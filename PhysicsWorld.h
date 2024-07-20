@@ -17,16 +17,18 @@ private:
     Hero* hero;
     BlockGrid* grid;
     EnemyContainer* enemyContainer;
-    void fall();
     bool isColliding(Rectangle* rec1, Rectangle* rec2) const;
     void hitDetection();
     void enemyMovement();
     void plantShoot();
+    void enemiesCollisions(); //Gestire i casi in cui hero collide con i nemici (per vita)
+    bool heroCollidingBlock; //Per sapere quandoin un frame hero collide con un blocck
     long int fallingT0;
 public:
     PhysicsWorld();
     void collisionsHandler();
     void update();
+    void fall();
     void addHero(Hero* hero);
     void addGrid(BlockGrid* grid);
     void addEnemyContainer(EnemyContainer* container);

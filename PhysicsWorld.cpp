@@ -2,6 +2,8 @@
 // Created by stefano on 7/14/24.
 //
 
+#include<iostream>
+
 #include "PhysicsWorld.h"
 #include"Hero.h"
 #include"frameTime.h"
@@ -10,16 +12,16 @@
 #include"BlockGrid.h"
 #include"Block.h"
 #include"Bullet.h"
-#include "Slime.h"
-#include"PlantBullet.h"
 #include"Plant.h"
-#include<iostream>
 #include"EnemyContainer.h"
+
+using namespace std;
 
 PhysicsWorld::PhysicsWorld() {
     fallingT0 = frameTime;
     hero =nullptr;
     enemyContainer = nullptr;
+    heroCollidingBlock = false;
 }
 
 void PhysicsWorld::fall() {  //Prende il tempo frame
@@ -34,6 +36,10 @@ void PhysicsWorld::update() {
     hitDetection();
     enemyMovement();
     plantShoot();
+    enemiesCollisions();
+    //cout << heroCollidingBlock << endl;
+    cout << heroCollidingBlock << endl;
+
 }
 
 void PhysicsWorld::addHero(Hero *hero) {
@@ -48,15 +54,19 @@ bool PhysicsWorld::isColliding(Rectangle* rec1, Rectangle* rec2) const {
            rec1->y+rec1->height > rec2->y);
 }
 
-
 void PhysicsWorld::addGrid(BlockGrid *grid) {
     this->grid = grid;
 }
 
 void PhysicsWorld::collisionsHandler() {
+    static bool previousCollision = false; //questo metodo viene chiamato due volte e sennò farebbe 01010101010..., quando collide
     bool collidedX = false;
     bool collidedY = false;
     Rectangle* heroRec = hero->getRectangle();
+    if(!previousCollision)
+        heroCollidingBlock = true;
+    else
+        heroCollidingBlock = false;
     for(const auto& it: grid->getBlocks()) {
         Rectangle* blockRec = it.getRectangle();
         if (isColliding(heroRec, blockRec)) {
@@ -87,9 +97,15 @@ void PhysicsWorld::collisionsHandler() {
 
     if(!collidedX)
         hero->setCollisionX(false); //Sennè se colldie con un solo blocco non collide affatto
+
     if(!collidedY) {
         hero->setCollisionY(false);
     }
+    if(collidedX ||  collidedY){
+        previousCollision = true;
+        heroCollidingBlock = true;
+    }
+
 }
 
 void PhysicsWorld::hitDetection() {  //per individuare quando i nemici sono colpiti
@@ -142,6 +158,21 @@ void PhysicsWorld::plantShoot() {
                     hero->hit(plant->getWeapon().getDamage());
                     const_cast<Weapon &>(plant->getWeapon()).deleteBullet(itPlantBullet); //Colpito il hero il proiettile scompare
                 }
+            }
+        }
+    }
+}
+
+void PhysicsWorld::enemiesCollisions() {
+    for(auto itEnemy: enemyContainer->getEnemies()){
+        if(isColliding(itEnemy->getRectangle(), hero->getRectangle())){
+            if(heroCollidingBlock) {
+                hero->setCollisionX(true); //Hero non sipuò muovere in origgontale in caso li tocchi
+                itEnemy->changeDirection(); //Il nemico in caso tocchi hero cambia direzione
+                hero->hit(itEnemy->getCollisionDmg(), true);
+            }
+            else{ //Se hero collide cone enemy da sopra...
+                itEnemy->hit(9999999); //Muore insomma.
             }
         }
     }

@@ -20,6 +20,7 @@ Slime::Slime(float x, float y, float speed, int hp, EnemyContainer* container): 
     runIndex = 0;
     direction = -1;
     animationType = SlimeAnimationType::Run;
+    collisionDmg = 10;
 }
 
 

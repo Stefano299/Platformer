@@ -36,12 +36,9 @@ void HealthBar::setPosition(float x, float y) {
 void HealthBar::update(int hp, int maxHealth) {
     //hp:maxHealth=x:maxWidth, faccio una proporzione
     width = ((float)hp/maxHealth)*maxWidth;
-    if(width >=0){
-        bar.setSize(sf::Vector2f (width,heigth)); //Devo aggiornare la dimensione
-    }
-    else {
+    if(width < 0)
         width = 0; //sennò va negativa
-    }
+    bar.setSize(sf::Vector2f (width,heigth)); //Devo aggiornare la dimensione
     if((float)hp/maxHealth <= 0.3)
         bar.setFillColor(sf::Color(216,12,39));
     else if((float)hp/maxHealth <= 0.6)

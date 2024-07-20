@@ -33,6 +33,7 @@ Plant::Plant(float x, float y, float speed, int hp, EnemyContainer* container) :
     animationType = PlantAnimationType::Idle;
     shootDirection = -1;
     shootTime = 0;
+    collisionDmg = 3;
 }
 
 void Plant::hitAnimation() {

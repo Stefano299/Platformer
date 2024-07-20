@@ -30,3 +30,7 @@ void Enemy::hit(int dmg) {
         container->removeEnemy(this); //Si elimina
 }
 
+int Enemy::getCollisionDmg() {
+    return collisionDmg;
+}
+

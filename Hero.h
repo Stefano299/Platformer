@@ -36,6 +36,8 @@ private:
     bool collidingY;
     float deltaY; //Mi serve per le animazioni di salto e caduta
     int shootTime;
+    int collidingTime; //Per quando colpisce un nemico
+    bool collidingEnemy;
     AnimationType animationType;
     sf::Texture idleTexture;
     sf::Texture runTexture;
@@ -58,7 +60,7 @@ public:
     void shoot();
     void setPhysicsWorld(PhysicsWorld* w);
     const Weapon& getWeapon() const;
-    void hit(int dmg) override;
+    void hit(int dmg, bool collided = false); //Nascono hit di gamecharacter, voglio divrsi  argomenti
     ~Hero() override;
 };
 

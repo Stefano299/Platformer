@@ -29,6 +29,7 @@ Pig::Pig(float x, float y, float speed, int hp, EnemyContainer* container): Enem
     walkIndex = 0;
     direction = 1;
     animationType = PigAnimationType::Walk;
+    collisionDmg = 7;
 }
 
 
