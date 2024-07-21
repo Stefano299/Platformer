@@ -168,8 +168,9 @@ void PhysicsWorld::enemiesCollisions() {
         if(isColliding(itEnemy->getRectangle(), hero->getRectangle())){
             if(heroCollidingBlock) {
                 hero->setCollisionX(true); //Hero non sipuò muovere in origgontale in caso li tocchi
-                if(typeid(*itEnemy) != typeid(Plant)){
-                    itEnemy->changeDirection(); //Il nemico in caso tocchi hero cambia direzione
+                if(typeid(*itEnemy) != typeid(Plant) && !hero->getCollidingEnemy()){ //Per evitare bug in cui enemy collide all'infinito ocn hero
+                    if(hero->getDirectionX() * itEnemy->getDirection() != 1) //Sennè il mostor si bugga venendo contor hero, se vanno nella stessa direzione
+                        itEnemy->changeDirection(); //Il nemico in caso tocchi hero cambia direzione
                     hero->hit(itEnemy->getCollisionDmg(), true);
                 }
             }

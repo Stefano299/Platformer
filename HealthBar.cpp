@@ -36,6 +36,7 @@ void HealthBar::setPosition(float x, float y) {
     this->y = y;
     bar.setPosition(x,y);
     border.setPosition(x,y);
+    heartSpr.setPosition(x-145, y-10);
 }
 
 void HealthBar::update(int hp, int maxHealth) {

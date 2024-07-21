@@ -38,6 +38,7 @@ private:
     int shootTime;
     int collidingTime; //Per quando colpisce un nemico
     bool collidingEnemy;
+    int directionX;
     AnimationType animationType;
     sf::Texture idleTexture;
     sf::Texture runTexture;
@@ -62,6 +63,8 @@ public:
     const Weapon& getWeapon() const;
     void hit(int dmg, bool collided = false); //Nascono hit di gamecharacter, voglio divrsi  argomenti
     void drawHealthBar(sf::RenderWindow& window) const; //Per disegnarla dopo tutto, così non sta mai dietro niente
+    int getDirectionX() const;
+    bool getCollidingEnemy() const;
     ~Hero() override;
 };
 

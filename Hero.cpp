@@ -41,6 +41,7 @@ Hero::Hero(float x, float y, float speed, int hp): GameCharacter(x, y, speed, hp
     sprite.setOrigin(16, 16);
     sprite.setPosition(x, y);
     animationType = AnimationType::Idle;
+    directionX = 0;
     rectangle = new Rectangle (x-12*SCALE_FACTORX,y-12*SCALE_FACTORY, 24*SCALE_FACTORX, 28*SCALE_FACTORY);
 }
 
@@ -100,12 +101,15 @@ void Hero::move(int dx) {
             sprite.setPosition(x, y);
         } else
             rectangle->x = x - 12 * SCALE_FACTORX;
+        directionX = sign(dx);
     }
 }
 
 
 void Hero::draw(sf::RenderWindow& window) {
     timeFlow();
+    if(y >= SCREEN_HEIGTH)
+        hit(99999); //Se hero cade muore
     if(hp <= 0)
         camera->gameOver();
     if(jumping) {
@@ -133,6 +137,7 @@ void Hero::draw(sf::RenderWindow& window) {
 void Hero::idleAnimation()  {
     sprite.setTexture(idleTexture);
     sprite.setTextureRect(sf::IntRect (idleTime * 32, 0, 32, 32));
+    directionX = 0;
 }
 
 void Hero::runAnimation() {
@@ -222,6 +227,14 @@ void Hero::hit(int dmg, bool collided ) {
 
 void Hero::drawHealthBar(sf::RenderWindow &window) const {
     camera->drawHealthBar(window);
+}
+
+int Hero::getDirectionX() const {
+    return directionX;
+}
+
+bool Hero::getCollidingEnemy() const {
+    return collidingEnemy;
 }
 
 
