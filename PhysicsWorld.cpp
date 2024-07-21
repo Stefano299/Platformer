@@ -37,9 +37,9 @@ void PhysicsWorld::update() {
     collisionsHandler();
     fall(); //Far cadere il personaggio se non cè una piattaforma sotto
     hitDetection();
+    enemiesCollisions();
     enemyMovement();
     plantShoot();
-    enemiesCollisions();
 }
 
 void PhysicsWorld::addHero(Hero *hero) {

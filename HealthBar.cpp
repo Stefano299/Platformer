@@ -19,11 +19,16 @@ HealthBar::HealthBar(float x, float y, float width, float heigth) {
     border.setFillColor(sf::Color(0, 0, 0, 0)); //Il bordo è un rettanglolo trasparente
     border.setOutlineThickness(7);
     border.setOutlineColor(sf::Color::Black);
+    heartTxt.loadFromFile("../assets/heart.png");
+    heartSpr.setTexture(heartTxt);
+    heartSpr.setScale(0.5, 0.5);
+    heartSpr.setPosition(x-145, y-10);
 }
 
 void HealthBar::draw(sf::RenderWindow &window) const{
     window.draw(bar);
     window.draw(border);
+    window.draw(heartSpr);
 }
 
 void HealthBar::setPosition(float x, float y) {

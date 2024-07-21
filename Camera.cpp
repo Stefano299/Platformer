@@ -6,19 +6,32 @@
 #include "Camera.h"
 #include"constants.h"
 #include "HealthBar.h"
+#include"frameTime.h"
 
-Camera::Camera(float width, float heigth, float speed):width(width), heigth(heigth),speed(speed) {
+Camera::Camera(float width, float heigth, float speed):width(width), heigth(heigth),speed(speed), gameOverIndex(0) {
     view.setSize(width, heigth);
     x = width/2;
     y = heigth/2;
     healthBar = new HealthBar(x-width/2+160, y-heigth/2+100, 800, 80);
     view.setCenter(x, y);
     backgroundTxt.loadFromFile("../assets/background.jpg");
+    gameoverTxt.loadFromFile("../assets/gameover.png");
+    gameoverSpr.setTexture(gameoverTxt);
+    gameoverSpr.setOrigin(650.f, 650.f);
+    gameoverSpr.setScale(0,0); //Voglio venga mostrato solo quando si muore
+    gameoverSpr.setPosition(x,y);
     backgroundSpr.setTexture(backgroundTxt);
     backgroundSpr.setOrigin(1920/2,1200/2); //Il bacground è 1920x1200, metto quindi l'orgine al centro
     backgroundSpr.scale((float)SCREEN_WIDTH/1920, (float)SCREEN_HEIGTH / 1200);
     backgroundSpr.setPosition(x,y);
 }
+
+void Camera::gameOver() {
+    if(frameTime % 1 == 0 && gameOverIndex <= 100)
+        gameOverIndex++; //inizialmente ha una grandezza di 0, quindi non esiste
+    gameoverSpr.setScale(0.014*(float)gameOverIndex, 0.014*(float)gameOverIndex);
+}
+
 
 float Camera::getX() const {
     return x;
@@ -84,9 +97,7 @@ HealthBar *Camera::getHealthBar() const {
     return healthBar;
 }
 
-void Camera::setHealthBarPosition(float x, float y) const {
-    healthBar->setPosition(x,y);
+void Camera::drawGameOver(sf::RenderWindow &window) {
+    window.draw(gameoverSpr);
 }
-
-
 

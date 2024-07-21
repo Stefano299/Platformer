@@ -106,6 +106,8 @@ void Hero::move(int dx) {
 
 void Hero::draw(sf::RenderWindow& window) {
     timeFlow();
+    if(hp <= 0)
+        camera->gameOver();
     if(jumping) {
         changeY(-17);  //Lo fa saltare
     }

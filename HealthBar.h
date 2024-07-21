@@ -16,6 +16,8 @@ private:
     float maxWidth;
     sf::RectangleShape border;
     sf::RectangleShape bar;
+    sf::Texture heartTxt; //Il cuoricino disegnato a sinistra della barra
+    sf::Sprite heartSpr;
 public:
     HealthBar(float x, float y, float width, float heigth);
     void draw(sf::RenderWindow& window)const;

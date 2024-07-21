@@ -134,5 +134,6 @@ void update(sf::RenderWindow& window, Hero& hero, PhysicsWorld& world, const Blo
     grid.draw(window);
     enemyContainer.drawAll(window);
     hero.drawHealthBar(window); //Lo devo fare cosicchè non venga coperta da altri sprite
+    hero.getCamera()->drawGameOver(window);
     window.display();
 }

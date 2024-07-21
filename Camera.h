@@ -14,6 +14,9 @@ private:
     sf::Texture backgroundTxt; //Se si muove la camera is muove anche l background
     sf::Sprite backgroundSpr;
     HealthBar* healthBar;
+    sf::Texture gameoverTxt; //Sprite mostrato quando si perde
+    sf::Sprite gameoverSpr;
+    int gameOverIndex; //Per l'animazione del gameover
     float width;
     float heigth;
     float x;
@@ -30,7 +33,8 @@ public:
     void updateHealthBar(int hp, int maxHealth);
     void drawHealthBar(sf::RenderWindow& window)const;
     HealthBar* getHealthBar() const;
-    void setHealthBarPosition(float x, float y) const;
+    void drawGameOver(sf::RenderWindow& window); // per mostrare la schermata di gameover sopra tutto
+    void gameOver(); //Mostrare la schermata di gameover
     ~Camera();
 };
 
