@@ -18,8 +18,10 @@ private:
     sf::RectangleShape bar;
 public:
     HealthBar(float x, float y, float width, float heigth);
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window)const;
     void setPosition(float x, float y);
+    float getX() const;
+    float getY() const;
     void update(int hp, int maxHealth);
 };
 

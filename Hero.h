@@ -61,6 +61,7 @@ public:
     void setPhysicsWorld(PhysicsWorld* w);
     const Weapon& getWeapon() const;
     void hit(int dmg, bool collided = false); //Nascono hit di gamecharacter, voglio divrsi  argomenti
+    void drawHealthBar(sf::RenderWindow& window) const; //Per disegnarla dopo tutto, così non sta mai dietro niente
     ~Hero() override;
 };
 

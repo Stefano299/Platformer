@@ -27,7 +27,7 @@ int toGrid(float y){ //Per gestire quando i blocchi vengono messi in y negative 
 }
 
 void initWindow(sf::RenderWindow& window);
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer);
+void update(sf::RenderWindow& window, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer);
 void handleEvents(sf::RenderWindow &window, BlockGrid& grid, Hero& hero, EnemyContainer& enemyContainer, PhysicsWorld& world);
 void handleHeroMovement(Hero &hero);
 void addBlock(const sf::Vector2f& mousePos, BlockGrid& grid);
@@ -41,7 +41,6 @@ int main() {
     PhysicsWorld world;
     Block::loadTextures();
     BlockGrid grid(GRID_WIDTH, GRID_HEIGHT);
-    sf::Sprite background;
     Hero hero(500, SCREEN_HEIGTH-400, 8.0f, 40);
     EnemyContainer enemyContainer;
     addBlock(sf::Vector2f (500, SCREEN_HEIGTH-100), grid);
@@ -53,7 +52,7 @@ int main() {
         handleEvents(window, grid, hero, enemyContainer, world);
         handleHeroMovement(hero);
         hero.getCamera()->arrowsMove(); //Per muovere la camera con le frecce, incaso serva
-        update(window, background, hero, world, grid, enemyContainer);
+        update(window, hero, world, grid, enemyContainer);
     }
     return 0;
 }
@@ -127,13 +126,13 @@ void addPig(const sf::Vector2f& mousePos, EnemyContainer& enemyContainer){
     enemyContainer.addEnemy(new Pig(((int)mousePos.x/(int)BLOCK_WIDTH)*BLOCK_WIDTH, toGrid(mousePos.y), 3.f,30, &enemyContainer));
 }
 
-void update(sf::RenderWindow& window, const sf::Sprite& background, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){
+void update(sf::RenderWindow& window, Hero& hero, PhysicsWorld& world, const BlockGrid& grid, EnemyContainer& enemyContainer){
     frameTime++;
     window.clear();
-    window.draw(background);
     hero.draw(window);
     world.update();
     grid.draw(window);
     enemyContainer.drawAll(window);
+    hero.drawHealthBar(window); //Lo devo fare cosicchè non venga coperta da altri sprite
     window.display();
 }

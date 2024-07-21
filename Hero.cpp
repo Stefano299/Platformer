@@ -10,6 +10,7 @@
 #include"frameTime.h"
 #include"PhysicsWorld.h"
 #include"Camera.h"
+#include"HealthBar.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ Hero::Hero(float x, float y, float speed, int hp): GameCharacter(x, y, speed, hp
     deltaY = 0;
     collidingX = false;
     shootTime = 0;
-    collidingEnemy = 0;
+    collidingEnemy = false;
     camera = new Camera(SCREEN_WIDTH, SCREEN_HEIGTH, speed);
     idleTexture.loadFromFile("../assets/idle.png");
     runTexture.loadFromFile("../assets/run.png");
@@ -116,10 +117,13 @@ void Hero::draw(sf::RenderWindow& window) {
     setAnimation();
     sprite.setPosition(x,y);
     camera->update(window);
+    float healthBarX = camera->getHealthBar()->getX();
+    float healthBarY = camera->getHealthBar()->getY();
     if(animationType!=AnimationType::Idle){ //Se è fermo voglio poter muove la camera con le frecce
         camera->setCoordinates(x,y);
     }
     window.draw(sprite);
+    camera->getHealthBar()->setPosition(healthBarX,healthBarY); //Lo devo fare sennò la barra della vita appare scoordinata
     weapon.draw(window);
     //rectangle->draw(window);
 }
@@ -212,6 +216,10 @@ void Hero::hit(int dmg, bool collided ) {
         collidingEnemy = true;
         animationType = AnimationType::Idle;
     }
+}
+
+void Hero::drawHealthBar(sf::RenderWindow &window) const {
+    camera->drawHealthBar(window);
 }
 
 

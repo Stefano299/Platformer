@@ -28,6 +28,9 @@ public:
     float getX() const;
     float getY() const;
     void updateHealthBar(int hp, int maxHealth);
+    void drawHealthBar(sf::RenderWindow& window)const;
+    HealthBar* getHealthBar() const;
+    void setHealthBarPosition(float x, float y) const;
     ~Camera();
 };
 

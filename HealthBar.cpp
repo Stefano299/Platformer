@@ -12,16 +12,16 @@ HealthBar::HealthBar(float x, float y, float width, float heigth) {
     this->width = width;
     maxWidth = width; //La larghezza iniziale che non diminuisce
     bar.setSize(sf::Vector2f (width, heigth));
-    bar.setPosition(x, y);  //Considero lo spessore del bordo (10 px)
-    bar.setFillColor(sf::Color(22,201,88));
+    bar.setPosition(x, y);
+    bar.setFillColor(sf::Color(22,201,88)); //la barra quando è piena è verde
     border.setSize(sf::Vector2f (width,heigth));
     border.setPosition(x,y);
     border.setFillColor(sf::Color(0, 0, 0, 0)); //Il bordo è un rettanglolo trasparente
-    border.setOutlineThickness(10);
+    border.setOutlineThickness(7);
     border.setOutlineColor(sf::Color::Black);
 }
 
-void HealthBar::draw(sf::RenderWindow &window) {
+void HealthBar::draw(sf::RenderWindow &window) const{
     window.draw(bar);
     window.draw(border);
 }
@@ -43,4 +43,12 @@ void HealthBar::update(int hp, int maxHealth) {
         bar.setFillColor(sf::Color(216,12,39));
     else if((float)hp/maxHealth <= 0.6)
         bar.setFillColor(sf::Color(255,128,0));
+}
+
+float HealthBar::getX() const {
+    return x;
+}
+
+float HealthBar::getY() const {
+    return y;
 }

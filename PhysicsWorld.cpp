@@ -14,6 +14,9 @@
 #include"Bullet.h"
 #include"Plant.h"
 #include"EnemyContainer.h"
+#include"Camera.h"
+#include"HealthBar.h"
+#include<typeinfo>
 
 using namespace std;
 
@@ -37,9 +40,6 @@ void PhysicsWorld::update() {
     enemyMovement();
     plantShoot();
     enemiesCollisions();
-    //cout << heroCollidingBlock << endl;
-    cout << heroCollidingBlock << endl;
-
 }
 
 void PhysicsWorld::addHero(Hero *hero) {
@@ -141,7 +141,7 @@ void PhysicsWorld::addEnemyContainer(EnemyContainer *container) {
 
 void PhysicsWorld::plantShoot() {
     for(auto itEnemy:  enemyContainer->getEnemies()){
-        Plant* plant = dynamic_cast<Plant*>(itEnemy); //TODO risolvere bug che fa crashare
+        Plant* plant = dynamic_cast<Plant*>(itEnemy);
         if(plant!= nullptr){//Volgio considerare solo le piante
             float dist = itEnemy->getRectangle()->y-hero->getRectangle()->y;
             if(dist <= hero->getRectangle()->height-20 && dist > 0) { //Mi interessa quando l'eroe è all'altezza della pianta
@@ -168,11 +168,15 @@ void PhysicsWorld::enemiesCollisions() {
         if(isColliding(itEnemy->getRectangle(), hero->getRectangle())){
             if(heroCollidingBlock) {
                 hero->setCollisionX(true); //Hero non sipuò muovere in origgontale in caso li tocchi
-                itEnemy->changeDirection(); //Il nemico in caso tocchi hero cambia direzione
-                hero->hit(itEnemy->getCollisionDmg(), true);
+                if(typeid(*itEnemy) != typeid(Plant)){
+                    itEnemy->changeDirection(); //Il nemico in caso tocchi hero cambia direzione
+                    hero->hit(itEnemy->getCollisionDmg(), true);
+                }
             }
             else{ //Se hero collide cone enemy da sopra...
-                itEnemy->hit(9999999); //Muore insomma.
+                if(itEnemy->getHp() > 0) { //Sennò lo fa più volte
+                    itEnemy->hit(9999999); //Muore insomma.
+                }
             }
         }
     }
