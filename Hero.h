@@ -65,6 +65,7 @@ public:
     void drawHealthBar(sf::RenderWindow& window) const; //Per disegnarla dopo tutto, così non sta mai dietro niente
     int getDirectionX() const;
     bool getCollidingEnemy() const;
+    AnimationType getAnimationType() const;
     ~Hero() override;
 };
 

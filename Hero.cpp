@@ -237,6 +237,10 @@ bool Hero::getCollidingEnemy() const {
     return collidingEnemy;
 }
 
+AnimationType Hero::getAnimationType() const {
+    return animationType;
+}
+
 
 
 

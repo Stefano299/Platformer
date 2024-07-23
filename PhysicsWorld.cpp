@@ -166,17 +166,18 @@ void PhysicsWorld::plantShoot() {
 void PhysicsWorld::enemiesCollisions() {
     for(auto itEnemy: enemyContainer->getEnemies()){
         if(isColliding(itEnemy->getRectangle(), hero->getRectangle())){
-            if(heroCollidingBlock) {
-                hero->setCollisionX(true); //Hero non sipuò muovere in origgontale in caso li tocchi
+            //TODO sostiture questo if, basta controllare l'animazione di caduta
+            if(heroCollidingBlock) { //Controlla non stia saltando
+                hero->setCollisionX(true); //Hero non sipuò muovere in orizzontale in caso li tocchi
                 if(typeid(*itEnemy) != typeid(Plant) && !hero->getCollidingEnemy()){ //Per evitare bug in cui enemy collide all'infinito ocn hero
                     if(hero->getDirectionX() * itEnemy->getDirection() != 1) //Sennè il mostor si bugga venendo contor hero, se vanno nella stessa direzione
                         itEnemy->changeDirection(); //Il nemico in caso tocchi hero cambia direzione
                     hero->hit(itEnemy->getCollisionDmg(), true);
                 }
             }
-            else{ //Se hero collide cone enemy da sopra...
-                if(itEnemy->getHp() > 0) { //Sennò lo fa più volte
-                    itEnemy->hit(9999999); //Muore insomma.
+            else{ //Se hero collide con enemy da sopra cadendo
+                if(itEnemy->getHp() > 0 && hero->getAnimationType() == AnimationType::Fall) { //Sennò lo fa più volte
+                    hero->hit(0,true); //Hero sta sopra il nemico senza prendere danno..
                 }
             }
         }

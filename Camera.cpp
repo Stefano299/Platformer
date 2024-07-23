@@ -62,6 +62,7 @@ void Camera::arrowsMove() {
 void Camera::update(sf::RenderWindow &window) {
     window.setView(view);
     window.draw(backgroundSpr);
+    gameoverSpr.setPosition(x,y);
     //healthBar->draw(window);
 }
 
