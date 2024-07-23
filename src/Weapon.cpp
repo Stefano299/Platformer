@@ -2,9 +2,9 @@
 // Created by stefano on 7/16/24.
 //
 
-#include "Weapon.h"
-#include"HeroBullet.h"
-#include"PlantBullet.h"
+#include "../includes/Weapon.h"
+#include"../includes/HeroBullet.h"
+#include"../includes/PlantBullet.h"
 
 Weapon::Weapon() {
     damage = 0;

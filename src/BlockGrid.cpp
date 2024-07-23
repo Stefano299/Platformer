@@ -3,9 +3,9 @@
 //
 
 #include<algorithm>
-#include "BlockGrid.h"
-#include"Block.h"
-#include"constants.h"
+#include "../includes/BlockGrid.h"
+#include"../includes/Block.h"
+#include"../includes/constants.h"
 
 BlockGrid::BlockGrid(int width, int height) {
     this->width = width;

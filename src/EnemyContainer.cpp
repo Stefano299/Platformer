@@ -2,8 +2,8 @@
 // Created by stefano on 7/18/24.
 //
 
-#include "EnemyContainer.h"
-#include"Enemy.h"
+#include "../includes/EnemyContainer.h"
+#include"../includes/Enemy.h"
 #include<algorithm>
 
 void EnemyContainer::addEnemy(Enemy *enemy) {

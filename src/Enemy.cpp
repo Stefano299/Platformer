@@ -2,7 +2,7 @@
 // Created by stefano on 7/18/24.
 //
 
-#include "Enemy.h"
+#include "../includes/Enemy.h"
 
 Enemy::Enemy(float x, float y, float speed, int hp, EnemyContainer* container) : GameCharacter(x,y,speed,hp){
     this->container = container;

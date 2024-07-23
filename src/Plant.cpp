@@ -2,8 +2,8 @@
 // Created by stefano on 7/18/24.
 //
 
-#include "Plant.h"
-#include"frameTime.h"
+#include "../includes/Plant.h"
+#include"../includes/frameTime.h"
 
 //TODO fare che hero e plant hanno la stessa funzione sign
 int sign2(float x){ //Metoddo sign2 per non avere conflitto di nome con quello di hero

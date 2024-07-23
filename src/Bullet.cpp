@@ -2,8 +2,8 @@
 // Created by stefano on 7/18/24.
 //
 
-#include "Bullet.h"
-#include "Rectangle.h"
+#include "../includes/Bullet.h"
+#include "../includes/Rectangle.h"
 
 Bullet::~Bullet() {
     delete rectangle;

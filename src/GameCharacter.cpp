@@ -2,7 +2,7 @@
 // Created by stefano on 7/17/24.
 //
 
-#include "GameCharacter.h"
+#include "../includes/GameCharacter.h"
 
 GameCharacter::GameCharacter(float x, float y, float speed, int hp) {
     this->x = x;

@@ -4,18 +4,18 @@
 
 #include<iostream>
 
-#include "PhysicsWorld.h"
-#include"Hero.h"
-#include"frameTime.h"
-#include"constants.h"
-#include"Rectangle.h"
-#include"BlockGrid.h"
-#include"Block.h"
-#include"Bullet.h"
-#include"Plant.h"
-#include"EnemyContainer.h"
-#include"Camera.h"
-#include"HealthBar.h"
+#include "../includes/PhysicsWorld.h"
+#include"../includes/Hero.h"
+#include"../includes/frameTime.h"
+#include"../includes/constants.h"
+#include"../includes/Rectangle.h"
+#include"../includes/BlockGrid.h"
+#include"../includes/Block.h"
+#include"../includes/Bullet.h"
+#include"../includes/Plant.h"
+#include"../includes/EnemyContainer.h"
+#include"../includes/Camera.h"
+#include"../includes/HealthBar.h"
 #include<typeinfo>
 
 using namespace std;

@@ -2,8 +2,8 @@
 // Created by stefano on 7/18/24.
 //
 
-#include "PlantBullet.h"
-#include "Rectangle.h"
+#include "../includes/PlantBullet.h"
+#include "../includes/Rectangle.h"
 
 PlantBullet::PlantBullet(float x, float y, float s, int d) : Bullet(x, y, s, d) {
     texture.loadFromFile("../assets/plantbullet.png");

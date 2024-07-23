@@ -1,5 +1,5 @@
-#include "Block.h"
-#include "constants.h"
+#include "../includes/Block.h"
+#include "../includes/constants.h"
 #include <iostream>
 
 // Dichiarazione delle texture come variabili statiche

@@ -2,7 +2,7 @@
 // Created by stefano on 7/19/24.
 //
 
-#include "HealthBar.h"
+#include "../includes/HealthBar.h"
 #include<iostream>
 
 HealthBar::HealthBar(float x, float y, float width, float heigth) {

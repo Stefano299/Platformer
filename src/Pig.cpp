@@ -2,15 +2,15 @@
 // Created by stefano on 7/19/24.
 //
 
-#include "Pig.h"
+#include "../includes/Pig.h"
 
 //
 // Created by stefano on 7/17/24.
 //
 
-#include "Pig.h"
-#include"constants.h"
-#include"frameTime.h"
+#include "../includes/Pig.h"
+#include"../includes/constants.h"
+#include"../includes/frameTime.h"
 #include <iostream>
 
 Pig::Pig(float x, float y, float speed, int hp, EnemyContainer* container): Enemy(x, y, speed, hp, container) {

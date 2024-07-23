@@ -3,10 +3,10 @@
 //
 
 #include <iostream>
-#include "Camera.h"
-#include"constants.h"
-#include "HealthBar.h"
-#include"frameTime.h"
+#include "../includes/Camera.h"
+#include"../includes/constants.h"
+#include "../includes/HealthBar.h"
+#include"../includes/frameTime.h"
 
 Camera::Camera(float width, float heigth, float speed):width(width), heigth(heigth),speed(speed), gameOverIndex(0) {
     view.setSize(width, heigth);

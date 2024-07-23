@@ -2,9 +2,9 @@
 // Created by stefano on 7/17/24.
 //
 
-#include "Slime.h"
-#include"constants.h"
-#include"frameTime.h"
+#include "../includes/Slime.h"
+#include"../includes/constants.h"
+#include"../includes/frameTime.h"
 #include <iostream>
 Slime::Slime(float x, float y, float speed, int hp, EnemyContainer* container): Enemy(x, y, speed, hp, container) {
     runTexture.loadFromFile("../assets/enemyrun.png");

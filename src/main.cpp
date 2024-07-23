@@ -3,18 +3,18 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-#include"constants.h"
-#include"Hero.h"
-#include"PhysicsWorld.h"
-#include"Block.h"
-#include"BlockGrid.h"
-#include"HeroBullet.h"
-#include"Slime.h"
-#include"EnemyContainer.h"
-#include"Plant.h"
-#include"Pig.h"
-#include"Camera.h"
-#include"HealthBar.h"
+#include"../includes/constants.h"
+#include"../includes/Hero.h"
+#include"../includes/PhysicsWorld.h"
+#include"../includes/Block.h"
+#include"../includes/BlockGrid.h"
+#include"../includes/HeroBullet.h"
+#include"../includes/Slime.h"
+#include"../includes/EnemyContainer.h"
+#include"../includes/Plant.h"
+#include"../includes/Pig.h"
+#include"../includes/Camera.h"
+#include"../includes/HealthBar.h"
 
 using namespace std;
 

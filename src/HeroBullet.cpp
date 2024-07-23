@@ -4,10 +4,10 @@
 
 #include <iostream>
 
-#include "HeroBullet.h"
-#include"constants.h"
-#include"Rectangle.h"
-#include"frameTime.h"
+#include "../includes/HeroBullet.h"
+#include"../includes/constants.h"
+#include"../includes/Rectangle.h"
+#include"../includes/frameTime.h"
 
 HeroBullet::HeroBullet(float x, float y, float s, int d): Bullet(x,y,s,d) {
     animIndex = 0;

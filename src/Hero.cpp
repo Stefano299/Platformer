@@ -5,12 +5,12 @@
 #include<iostream>
 
 
-#include "Hero.h"
-#include"constants.h"
-#include"frameTime.h"
-#include"PhysicsWorld.h"
-#include"Camera.h"
-#include"HealthBar.h"
+#include "../includes/Hero.h"
+#include"../includes/constants.h"
+#include"../includes/frameTime.h"
+#include"../includes/PhysicsWorld.h"
+#include"../includes/Camera.h"
+#include"../includes/HealthBar.h"
 
 using namespace std;
 
